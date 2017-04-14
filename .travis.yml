@@ -10,8 +10,8 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - scripts/runtest.py
-  - if [[$TRAVIS_PYTHON_VERSION == 3.6]]; then travis-sphinx --branches=master build; fi
+  - python scripts/runtest.py
+  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master build; fi
 
 after_success:
-  - if [[$TRAVIS_PYTHON_VERSION == 3.6]]; then travis-sphinx --branches=master deploy; fi
+  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master deploy; fi
