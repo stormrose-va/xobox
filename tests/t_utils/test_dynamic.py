@@ -70,7 +70,7 @@ class TestXoboxUtilsDynamic(TestCase):
         obj = DynamicIterable()
         obj['tests'] = 123
         self.assertTrue(hasattr(obj, 'tests'))
-        self.assertEqual(obj.test, 123)
+        self.assertEqual(obj.tests, 123)
 
     def test_06(self):
         """
