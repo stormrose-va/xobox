@@ -39,7 +39,7 @@ def to_str(value):
     :param value: The value to be converted
     :return: Resulting string
     """
-    if isinstance(value, bytes) or isinstance(value, bytearray):
+    if isinstance(value, (bytes, bytearray)):
         return value.decode(encoding=get_conf('DEFAULT_CHARSET'), errors='replace')
     elif value is None:
         return ''
