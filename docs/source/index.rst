@@ -13,7 +13,7 @@ general `X-Plane`_ or `FSEconomy`_ end user guidance.
 
    This documentation is perpetually updated from the project's central :ref:`git repository's <blessed-repository>`
    master branch. To ensure you work with the latest version available, please make sure to access this documentation
-   exclusively at https://stormrose.github.io/xobox/
+   exclusively at https://stormrose-va.github.io/xobox/
 
 
 How the documentation is organised
