@@ -19,6 +19,7 @@ The type label indicates what kind the issue is of. These types are available:
 * **feature** marks a request for a new feature
 * **enhancement** marks a request for enhancing an existing feature
 * **optimisation** marks a request for optimising a feature or the corresponding source code
+* **doc** marks a request for amending or updating the documentation
 * **legal** marks issues related to legal affairs (e. g. licensing, patents, etc.)
 * **infrastructure** marks issues related to the project's technical infrastructure
 * **project** marks issues related to general project management
@@ -32,8 +33,8 @@ Priority
 
 The Stormrose Project uses these priority labels to mark issues which require fast attention:
 
-* **Security** -- top priority label marking security issues
-* **Critical** -- non-security related label for top priority issues endangering or blocking production use
+* **security** -- top priority label marking security issues
+* **critical** -- non-security related label for top priority issues endangering or blocking production use
 
 Otherwise, priorities are expressed by the sorting order within the respective column of the `Kanban Board`_ -- an
 issue placed above another issue within the column has a higher priority than the one placed below.
@@ -56,11 +57,11 @@ The xobox project uses these columns (i. e. status messages):
 * **In Progress** -- issues that are currently being worked on (i. e. a feature branch exists for these issues).
 * **Ready** -- issues whose feature branch is considered ready for merge into the ``develop`` branch (i. e. a pull
   request has been created for the respective issue).
-* **Review or Blocked** -- issues which are subject to review by the :ref:`core team <core-team>`, pending validation
+* **Review** -- issues which are subject to review by the :ref:`core team <core-team>`, pending validation
   or feedback or whose progress is blocked by whatever reason. Issues with this status are subject to regular reviews
   by the core team members.
-* **Staging** -- issues whose feature branch has been merged into ``develop`` and which can therefore be tested
-  in the integration environment.
+* **Integration** -- issues whose feature branch has been merged into ``develop`` and which can therefore be tested
+  with the full code stack available for the next release.
 * **Done** -- issues that are considered complete after integration test. May be closed after review/confirmation.
 
 
