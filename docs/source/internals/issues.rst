@@ -33,8 +33,8 @@ Priority
 
 The Stormrose Project uses these priority labels to mark issues which require fast attention:
 
-* **Security** -- top priority label marking security issues
-* **Critical** -- non-security related label for top priority issues endangering or blocking production use
+* **security** -- top priority label marking security issues
+* **critical** -- non-security related label for top priority issues endangering or blocking production use
 
 Otherwise, priorities are expressed by the sorting order within the respective column of the `Kanban Board`_ -- an
 issue placed above another issue within the column has a higher priority than the one placed below.
