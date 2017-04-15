@@ -69,7 +69,8 @@ corresponding tag on the master branch that marks the production version.
 
 * Hotfix branches must be branched off the corresponding release tag on ``master``
 * By convention, their name shall be prefixed with ``hotfix/``, followed by the release's version number and hotfix
-  suffix, as well as a reference to the corresponding :ref:`issue <issues>` (``hotfix/<version>/<id>/<description>``).
+  suffix, as well as a reference to the corresponding :ref:`issue <issues>`
+  (``hotfix/<version>/<issue id>/<description>``).
 * Hotfix branches merge back into ``master`` **and** ``develop`` via :ref:`pull request <pull-request>`. A merge of
   a hotfix branch back into ``master`` absolutely requires a release tag to be set on master for that commit.
 
@@ -87,7 +88,7 @@ The development of a new feature, or the improvement of an existing feature (inc
 opening an :doc:`issue <issues>`. Once the issue is created and assigned, a feature branch has to be created, following
 this naming convention::
 
-   feature/<class>/<id>/<description>
+   feature/<class>/<issue id>/<description>
 
 .. note::
 
