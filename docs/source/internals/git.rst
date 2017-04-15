@@ -99,6 +99,8 @@ The **class** may be one of
 * *new* -- for new features
 * *imp* -- for optimisation or enhancement
 * *doc* -- for documentation only updates
+* *pro* -- for project related changes (code reorganization, governance changes, ...)
+* *qca* -- for quality control & assurance related changes (policy, code quality, ...)
 
 
 .. code-block:: bash
