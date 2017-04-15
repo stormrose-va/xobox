@@ -9,6 +9,8 @@
 
 
 import os
+import appdirs
+import xobox
 
 
 # This file contains all default settings used anywhere in the xobox code.
@@ -35,6 +37,12 @@ DEFAULT_PICKLE_PROTOCOL = 2
 #: Default xobox Executable
 DEFAULT_XOBOX_EXECUTABLE = os.path.basename(sys.argv[0])
 
+#: Default configuration file name
+DEFAULT_CONF_FILE = os.path.join(
+    appdirs.user_config_dir(appname=xobox.get_app_name(), appauthor=xobox.get_app_author()),
+    'xobox.ini'
+)
+
 
 # LOGGING
 #########
@@ -46,7 +54,10 @@ DEFAULT_LOG_TYPE = 'term'
 DEFAULT_LOG_LEVEL = 'notice'
 
 #: Default log file
-DEFAULT_LOG_FILE = '/var/log/xobox.log'
+DEFAULT_LOG_FILE = os.path.join(
+    appdirs.user_log_dir(appname=xobox.get_app_name(), appauthor=xobox.get_app_author(), opinion=False),
+    'xobox.log'
+)
 
 #: Default timestamp format for file logging
 DEFAULT_LOG_TIMESTAMP = '%Y-%m-%d %H:%M:%S'
