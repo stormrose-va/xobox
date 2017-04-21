@@ -43,6 +43,12 @@ DEFAULT_CONF_FILE = os.path.join(
     'xobox.ini'
 )
 
+#: Default configuration section for core options
+DEFAULT_CONF_SECT_CORE = 'core'
+
+#: Default configuration section for core options
+DEFAULT_CONF_SECT_LOG = 'log'
+
 
 # LOGGING
 #########
