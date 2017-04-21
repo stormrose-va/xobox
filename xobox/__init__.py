@@ -14,6 +14,9 @@ VERSION = (0, 1, 0, 'alpha', 0)
 #: Official copyright information for the :py:mod:`xobox` package
 COPYRIGHT = ('2017', 'the Stormrose Project team')
 
+#: Official app name and author
+APPINFO = ('Stormrose', 'xobox')
+
 
 def get_version(*args, **kwargs):
     """
@@ -45,3 +48,25 @@ def get_development_status(*args, **kwargs):
     """
     from .utils.version import get_development_status
     return get_development_status(*args, **kwargs)
+
+
+def get_app_name(*args, **kwargs):
+    """
+    Function providing the official application name for xobox.
+    
+    This information is mainly required to construct configuration and data paths, etc.
+    This function is a wrapper function provided for convenience, ensuring a consistent
+    interface to this information.
+    """
+    return APPINFO[1]
+
+
+def get_app_author(*args, **kwargs):
+    """
+    Function providing the official author name for xobox.
+
+    This information is mainly required to construct configuration and data paths, etc.
+    This function is a wrapper function provided for convenience, ensuring a consistent
+    interface to this information.
+    """
+    return APPINFO[0]

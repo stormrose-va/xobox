@@ -54,6 +54,8 @@ Core Settings
 
 .. autodata:: xobox.conf.default.DEFAULT_XOBOX_EXECUTABLE
 
+.. autodata:: xobox.conf.default.DEFAULT_CONF_FILE
+
 
 Logging Settings
 ~~~~~~~~~~~~~~~~
