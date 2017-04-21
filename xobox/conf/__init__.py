@@ -8,6 +8,7 @@
 """
 
 
+import configparser
 from . import default
 from ..utils.dynamic import DynamicIterable
 from ..utils.singleton import Singleton
@@ -75,6 +76,20 @@ class ApplicationConf(DynamicIterable):
         for setting in dir(default):
             if setting.isupper():
                 self[setting] = getattr(default, setting)
+
+    def _update_from_file(self):
+        """
+        Update configuration with information from configuration file.
+        
+        Only values will be considered if the appropriate key has been defined in
+        :py:module:`~xobox.conf.default`. Other values are ignored.
+        """
+        config = configparser.ConfigParser()
+        config.read(self['CONF_FILE'])
+        for sect in config.sections():
+            for key in config[sect]:
+                if key in self.keys():
+                    self[key] = config[sect][key]
 
     @staticmethod
     def _hook_uppercase(key, value):
