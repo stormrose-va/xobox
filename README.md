@@ -1,5 +1,7 @@
 # xobox
 
+[![Join the chat at https://gitter.im/stormrose-va/xobox](https://badges.gitter.im/stormrose-va/xobox.svg)](https://gitter.im/stormrose-va/xobox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 xobox (pronounced *zoobox*) is a flight data analysis tool focusing on X-Plane flight data logs. The name is derived
 from the cognomen frequently used for flight data recorders by non-aviation folks ("black box") and the fact that this
 box is actually orange (so it's an "orange box").
