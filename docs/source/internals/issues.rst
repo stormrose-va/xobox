@@ -23,6 +23,7 @@ The type label indicates what kind the issue is of. These types are available:
 * **legal** marks issues related to legal affairs (e. g. licensing, patents, etc.)
 * **infrastructure** marks issues related to the project's technical infrastructure
 * **project** marks issues related to general project management
+* **releng** marks issues related to release management (e. g. version bumps etc.)
 * **support** marks requests for technical support
 
 
