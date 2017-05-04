@@ -76,19 +76,26 @@ def __filter_members(item):
     return not pattern.search(item)
 
 
-def __write_untested(module, test, info):
+def __write_untested(label, result):
     """
-    Print information on non-executed test
+    Print information on non-executed tests
     
-    :param str module: name of the test module
-    :param str test:  name of the test
-    :param str info:  supplementary information to be displayed
+    :param str label: type of the untested (either 'Skipped' or 'Failed')
+    :param result:    test result set
     """
-    print('   {module} {test}: {info}'.format(
-        module=module,
-        test=' '.join(str(test).split(" ")[0].split('_')),
-        info=info.strip())
-    )
+    if result:
+        if label == "Skipped":
+            info = result[2]
+        else:
+            info = result[3]
+
+        print('{} Test Cases:\n'.format(label))
+        for res in result:
+            print('   {module} {test}: {info}'.format(
+                module=res[0],
+                test=' '.join(str(res[1]).split(" ")[0].split('_')),
+                info=info.strip())
+            )
 
 
 def main():
@@ -200,18 +207,12 @@ def main():
         total=total_tests,
         ratio=ratio
     ))
-    if skipped:
-        print('Skipped Test Cases:\n')
-        for skip in skipped:
-            __write_untested(skip[0], skip[1], skip[2])
+    __write_untested('Skipped', skipped)
 
-    if failed:
-        if skipped:
-            print('\nFailed Test Cases:\n')
-        else:
-            print('Failed Test Cases:\n')
-        for fail in failed:
-            __write_untested(fail[0], fail[1], fail[3])
+    if failed and skipped:
+        print('\n')
+
+    __write_untested('Failed', failed)
 
     if total_passed < (total_tests - total_skipped):
         print("\nOverall Test Result: FAILED.\n")
