@@ -27,8 +27,7 @@ class Dynamic(object):
         """
         Dynamically add property (read-only) to the current class object
         """
-        fget = lambda self: self._get_property(name)
-        setattr(self.__class__, name, property(fget, doc=doc))
+        setattr(self.__class__, name, property(fget=lambda self: self._get_property(name), doc=doc))
         setattr(self, '_' + name, value)
 
     def _get_property(self, name):
@@ -97,9 +96,13 @@ class DynamicIterable(UserDict, object):
         """
         Dynamically add property to the current class object
         """
-        fget = lambda self: self.__getattr__(name)
-        fset = lambda self, value: self.__setitem__(name, value)
-        setattr(self.__class__, name, property(fget=fget, fset=fset, doc=doc))
+        setattr(
+            self.__class__, name, property(
+                fget=lambda self: self.__getattr__(name),
+                fset=lambda self, value: self.__setitem__(name, value),
+                doc=doc
+            )
+        )
 
     def __del_property(self, name):
         """

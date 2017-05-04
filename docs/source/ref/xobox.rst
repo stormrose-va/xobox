@@ -15,6 +15,12 @@ this level.
 
 .. autodata:: xobox.COPYRIGHT
 
+.. autodata:: xobox.APPINFO
+
 .. autofunction:: xobox.get_version
 
 .. autofunction:: xobox.get_development_status
+
+.. autofunction:: xobox.get_app_name
+
+.. autofunction:: xobox.get_app_author

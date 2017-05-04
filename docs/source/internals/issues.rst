@@ -55,13 +55,13 @@ The xobox project uses these columns (i. e. status messages):
 
 * **Backlog** -- all issues that are waiting to be worked on.
 * **In Progress** -- issues that are currently being worked on (i. e. a feature branch exists for these issues).
-* **Ready** -- issues whose feature branch is considered ready for merge into the ``develop`` branch (i. e. a pull
-  request has been created for the respective issue).
-* **Review** -- issues which are subject to review by the :ref:`core team <core-team>`, pending validation
+* **Ready** -- issues whose feature branch is considered ready for merge into the ``origin/master`` branch (i. e. a
+  pull request has been created for the respective issue).
+* **Review** -- issues which are subject to an extended review by the :ref:`core team <core-team>`, pending validation
   or feedback or whose progress is blocked by whatever reason. Issues with this status are subject to regular reviews
   by the core team members.
-* **Integration** -- issues whose feature branch has been merged into ``develop`` and which can therefore be tested
-  with the full code stack available for the next release.
+* **Rejected** -- issues which have been rejected by the :ref:`core team <core-team>`, usually after a longer review
+  period. Issues violating xobox' project objectives or the overall Stormrose policies may be immediately rejected.
 * **Done** -- issues that are considered complete after integration test. May be closed after review/confirmation.
 
 

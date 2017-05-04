@@ -15,6 +15,7 @@ from ..utils import compat
 from ..utils import loader
 from .logger import Logger, Levels
 from .base import BaseCommand
+from ..conf import get_conf, ApplicationConf
 
 
 class CommandDispatcher(object):
@@ -25,6 +26,15 @@ class CommandDispatcher(object):
     """
 
     _arguments = (
+        (
+            ('-c', '--conf'),
+            {
+                'help': 'xobox configuration file (defaults to {})'.format(get_conf('CONF_FILE')),
+                'action': 'store',
+                'metavar': '<conf>',
+                'default': get_conf('CONF_FILE')
+            }
+        ),
         (
             ('-d', '--dir'),
             {
@@ -251,6 +261,10 @@ class CommandDispatcher(object):
 
         if 'no_color' in global_args and global_args.no_color:
             self._logger.color = False
+
+        if 'conf' in global_args and global_args.conf:
+            conf = ApplicationConf.get_instance()
+            conf['CONF_FILE'] = os.path.abspath(global_args.conf)
 
         # Create an instance of the called command and execute it
         command_class = self._commands[self._command]

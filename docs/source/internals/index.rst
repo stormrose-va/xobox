@@ -17,6 +17,7 @@ describes code standards as well as processes and tools around the management of
    roles
    git
    issues
+   release
 
 
 .. _MIT License: https://opensource.org/licenses/MIT

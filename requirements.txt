@@ -1,3 +1,4 @@
+appdirs>=1.4.3
 Sphinx>=1.5.5
 sphinx-rtd-theme>=0.2.4
 travis-sphinx>=1.4.1
