@@ -76,6 +76,21 @@ def __filter_members(item):
     return not pattern.search(item)
 
 
+def __write_untested(module, test, info):
+    """
+    Print information on non-executed test
+    
+    :param str module: name of the test module
+    :param str test:  name of the test
+    :param str info:  supplementary information to be displayed
+    """
+    print('   {module} {test}: {info}'.format(
+        module=module,
+        test=' '.join(str(test).split(" ")[0].split('_')),
+        info=info.strip())
+    )
+
+
 def main():
     """
     xobox test script main function
@@ -188,11 +203,7 @@ def main():
     if skipped:
         print('Skipped Test Cases:\n')
         for skip in skipped:
-            print('   {module} {test}: {reason}'.format(
-                module=skip[0],
-                test=' '.join(str(skip[1]).split(" ")[0].split('_')),
-                reason=skip[2].strip())
-            )
+            __write_untested(skip[0], skip[1], skip[2])
 
     if failed:
         if skipped:
@@ -200,12 +211,7 @@ def main():
         else:
             print('Failed Test Cases:\n')
         for fail in failed:
-            print('   {module} {test}: {name}'.format(
-                module=fail[0],
-                test=' '.join(str(fail[1]).split(" ")[0].split('_')),
-                name=fail[3]
-            )
-            )
+            __write_untested(fail[0], fail[1], fail[3])
 
     if total_passed < (total_tests - total_skipped):
         print("\nOverall Test Result: FAILED.\n")
