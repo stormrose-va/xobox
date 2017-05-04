@@ -84,13 +84,12 @@ def __write_untested(label, result):
     :param result:    test result set
     """
     if result:
-        if label == "Skipped":
-            info = result[2]
-        else:
-            info = result[3]
-
         print('{} Test Cases:\n'.format(label))
         for res in result:
+            if label == "Skipped":
+                info = res[2]
+            else:
+                info = res[3]
             print('   {module} {test}: {info}'.format(
                 module=res[0],
                 test=' '.join(str(res[1]).split(" ")[0].split('_')),
