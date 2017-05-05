@@ -19,6 +19,7 @@ The type label indicates what kind the issue is of. These types are available:
 * **feature** marks a request for a new feature
 * **enhancement** marks a request for enhancing an existing feature
 * **optimisation** marks a request for optimising a feature or the corresponding source code
+* **quality** marks a request to improve code quality or test coverage
 * **doc** marks a request for amending or updating the documentation
 * **legal** marks issues related to legal affairs (e. g. licensing, patents, etc.)
 * **infrastructure** marks issues related to the project's technical infrastructure
