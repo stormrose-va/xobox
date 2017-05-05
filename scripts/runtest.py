@@ -11,7 +11,6 @@
 
 import importlib
 import os
-import re
 import sys
 import unittest
 
@@ -65,6 +64,26 @@ def __write_untested(label, result):
             )
 
 
+def __get_untested(test_class, test_set):
+    """
+    Prepare a list of not run tests
+    
+    :param test_class: test class
+    :param test_set:   result set with failed or skipped tests
+    :return:           list of tuples 
+    """
+    result = []
+    if test_set:
+        for test in test_set:
+            result.append((
+                test_class.__name__,
+                test[0],
+                test[1],
+                getattr(getattr(test_class, str(test[0]).split(" ")[0]), '__doc__').splitlines()[2].strip()
+            ))
+    return result
+
+
 def main():
     """
     xobox test script main function
@@ -109,30 +128,9 @@ def main():
     for test_class in test_classes:
         suite = unittest.defaultTestLoader.loadTestsFromTestCase(test_class)
         result = runner.run(suite)
-        if result.skipped:
-            for test in result.skipped:
-                skipped.append((
-                    test_class.__name__,
-                    test[0],
-                    test[1],
-                    getattr(getattr(test_class, str(test[0]).split(" ")[0]), '__doc__').splitlines()[2].strip()
-                ))
-        if result.failures:
-            for test in result.failures:
-                failed.append((
-                    test_class.__name__,
-                    test[0],
-                    test[1],
-                    getattr(getattr(test_class, str(test[0]).split(" ")[0]), '__doc__').splitlines()[2].strip()
-                ))
-        if result.errors:
-            for test in result.errors:
-                failed.append((
-                    test_class.__name__,
-                    test[0],
-                    test[1],
-                    getattr(getattr(test_class, str(test[0]).split(" ")[0]), '__doc__').splitlines()[2].strip()
-                ))
+        skipped += __get_untested(test_class, result.skipped)
+        failed += __get_untested(test_class, result.failures)
+        failed += __get_untested(test_class, result.errors)
         results[test_class.__name__] = (len(result.failures) + len(result.errors), len(result.skipped), result.testsRun)
         if result.failures or result.errors:
             return_code = EX_SOFTWARE
