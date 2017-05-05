@@ -10,40 +10,7 @@
 
 import importlib
 import os
-import re
-
-
-def __filter_members(item):
-    """
-    Filter function to detect classes within a module or package
-    
-    :param str item: the item to be tested with this filter
-    """
-    exclude = (
-        re.escape('__builtins__'),
-        re.escape('__cached__'),
-        re.escape('__doc__'),
-        re.escape('__file__'),
-        re.escape('__loader__'),
-        re.escape('__name__'),
-        re.escape('__package__'),
-        re.escape('__path__')
-    )
-    pattern = re.compile('|'.join(exclude))
-    return not pattern.search(item)
-
-
-def __filter_modules(item):
-    """
-    Filter function to detect processor modules and packages
-    
-    :param str item: the item to be tested with this filter
-    """
-    exclude = (
-        re.escape('__init__.py'),
-    )
-    pattern = re.compile('|'.join(exclude))
-    return not pattern.search(item)
+from xobox.utils import filters
 
 
 def detect_class_modules(mod, parent=object):
@@ -73,7 +40,7 @@ def detect_class_modules(mod, parent=object):
         gen_dir = os.listdir(os.path.dirname(os.path.realpath(package_instance.__file__)))
 
         # only consider modules and packages, and exclude the base module
-        for file_candidate in filter(__filter_modules, gen_dir):
+        for file_candidate in filter(filters.modules, gen_dir):
 
             # Python files are modules; the name needs to be without file ending
             if file_candidate[-3:] == '.py':
@@ -94,7 +61,7 @@ def detect_class_modules(mod, parent=object):
     # test if any of the candidates contain
     # classes derived from the parent class
     for candidate in candidates:
-        for member_candidate in filter(__filter_members, dir(candidate)):
+        for member_candidate in filter(filters.members, dir(candidate)):
             try:
                 if issubclass(getattr(candidate, member_candidate), parent) \
                    and getattr(candidate, member_candidate).__name__ != parent.__name__:
