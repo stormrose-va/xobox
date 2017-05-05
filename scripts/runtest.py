@@ -44,38 +44,6 @@ def __get_version(version=None):
     return main_part + sub
 
 
-def __filter_files(item):
-    """
-    Filter for Python modules beginning with *test_*
-    
-    :param str item: the item to be tested with this filter
-    """
-    file, ext = os.path.splitext(item)
-    if file != '__init__' and ext == '.py' and file[:5] == 'test_':
-        return True
-    return False
-
-
-def __filter_members(item):
-    """
-    Filter function to detect classes within a module or package
-    
-    :param str item: the item to be tested with this filter
-    """
-    exclude = (
-        re.escape('__builtins__'),
-        re.escape('__cached__'),
-        re.escape('__doc__'),
-        re.escape('__file__'),
-        re.escape('__loader__'),
-        re.escape('__name__'),
-        re.escape('__package__'),
-        re.escape('__path__')
-    )
-    pattern = re.compile('|'.join(exclude))
-    return not pattern.search(item)
-
-
 def __write_untested(label, result):
     """
     Print information on non-executed tests
@@ -107,6 +75,8 @@ def main():
     if os.path.isfile(os.path.join(xobox_path, 'xobox', '__init__.py')):
         sys.path.insert(0, xobox_path)
 
+    from xobox.utils import filters
+
     test_classes = []
     test_dir = os.path.join(xobox_path, 'tests')
 
@@ -114,13 +84,13 @@ def main():
     # modules derived from :py:class:`~unittest.TestCase`
     for root, dirs, files in os.walk(test_dir):
         module_prefix = '.'.join(str(os.path.relpath(root, os.path.dirname(test_dir))).split(os.path.sep))
-        for mod in filter(__filter_files, files):
+        for mod in filter(filters.files, files):
             try:
                 candidate = importlib.import_module('.'.join((module_prefix, os.path.splitext(mod)[0])))
             except ImportError:
                 candidate = None
             if candidate:
-                for member in filter(__filter_members, dir(candidate)):
+                for member in filter(filters.members, dir(candidate)):
                     try:
                         if issubclass(getattr(candidate, member), unittest.TestCase) \
                            and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
