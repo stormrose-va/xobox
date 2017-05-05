@@ -10,8 +10,9 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python scripts/runtest.py
+  - coverage run scripts/runtest.py
   - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master build; fi
 
 after_success:
+  - CODECLIMATE_REPO_TOKEN=5e6c134005b05a58897baf876391c108b2fab570103fe28030792a48baa001d4 codeclimate-test-reporter
   - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master deploy; fi
