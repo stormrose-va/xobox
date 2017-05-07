@@ -31,6 +31,7 @@ def members(item):
     :param str item: the item to be tested with this filter
     """
     exclude = (
+        re.escape('__all__'),
         re.escape('__builtins__'),
         re.escape('__cached__'),
         re.escape('__doc__'),
@@ -38,7 +39,8 @@ def members(item):
         re.escape('__loader__'),
         re.escape('__name__'),
         re.escape('__package__'),
-        re.escape('__path__')
+        re.escape('__path__'),
+        re.escape('__spec__')
     )
     pattern = re.compile('|'.join(exclude))
     return not pattern.search(item)
@@ -52,6 +54,7 @@ def modules(item):
     """
     exclude = (
         re.escape('__init__.py'),
+        re.escape('__pycache__'),
     )
     pattern = re.compile('|'.join(exclude))
     return not pattern.search(item)
