@@ -9,6 +9,7 @@
 
 
 import os
+import importlib
 from unittest import TestCase
 from xobox.utils import filters
 
@@ -40,4 +41,29 @@ class TestXoboxUtilsFilters(TestCase):
         ]
         for root, dirs, files in os.walk(test_path):
             result += list(filter(filters.files, files))
+        self.assertListEqual(result, expected)
+
+    def test_02(self):
+        """
+        Test Case 02:
+        Detect members of current test module.
+        
+        Test is passed if the returned list matches with the expected result.
+        """
+        test_module = importlib.import_module('tests.t_utils.test_filters')
+        result = list(filter(filters.members, dir(test_module)))
+        expected = ['TestCase', 'TestXoboxUtilsFilters', 'filters', 'importlib', 'os']
+        self.assertListEqual(result, expected)
+
+    def test_03(self):
+        """
+        Test Case 03:
+        Detect modules in tests package path.
+        
+        Test is passed if the returned list matches with the expected result.
+        """
+        test_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        gen_dir = os.listdir(test_path)
+        result = list(filter(filters.modules, gen_dir))
+        expected = ['t_cli', 't_conf', 't_core', 't_scripts', 't_utils', 'test_xobox.py']
         self.assertListEqual(result, expected)
