@@ -84,6 +84,20 @@ def __get_untested(test_class, test_set):
     return result
 
 
+def __get_modules(path, filter_function):
+    """
+    Generate a list of modules from a given path
+    
+    :param str path:         location on the file system to scan
+    :param filter_function:  reference to the filter function to be used
+    :return:                 iterable for modules
+    """
+    for root, dirs, files in os.walk(path):
+        module_prefix = '.'.join(str(os.path.relpath(root, os.path.dirname(path))).split(os.path.sep))
+        for mod in filter(filter_function, files):
+            yield '.'.join((module_prefix, os.path.splitext(mod)[0]))
+
+
 def main():
     """
     xobox test script main function
