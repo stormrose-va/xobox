@@ -27,6 +27,7 @@ class TestXoboxUtilsFilters(TestCase):
         Test is passed if the returned list matches with the expected result.
         """
         test_path = os.path.dirname(os.path.realpath(__file__))
+        print(test_path)
         result = []
         expected = [
             'test_compat.py',
@@ -40,7 +41,12 @@ class TestXoboxUtilsFilters(TestCase):
             'test_version.py'
         ]
         for root, dirs, files in os.walk(test_path):
+            print(root)
+            print(dirs)
+            print(files)
             result += list(filter(filters.files, files))
+        print(expected)
+        print(result)
         self.assertListEqual(result, expected)
 
     def test_02(self):
