@@ -47,6 +47,10 @@ class TestXoboxUtilsFilters(TestCase):
             result += list(filter(filters.files, files))
         print(expected)
         print(result)
+        expected.sort()
+        result.sort()
+        print(expected)
+        print(result)
         self.assertListEqual(result, expected)
 
     def test_02(self):
