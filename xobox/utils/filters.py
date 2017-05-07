@@ -54,6 +54,7 @@ def modules(item):
     """
     exclude = (
         re.escape('__init__.py'),
+        re.escape('__pycache__'),
     )
     pattern = re.compile('|'.join(exclude))
     return not pattern.search(item)
