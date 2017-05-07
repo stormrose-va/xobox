@@ -27,7 +27,6 @@ class TestXoboxUtilsFilters(TestCase):
         Test is passed if the returned list matches with the expected result.
         """
         test_path = os.path.dirname(os.path.realpath(__file__))
-        print(test_path)
         result = []
         expected = [
             'test_compat.py',
@@ -41,16 +40,9 @@ class TestXoboxUtilsFilters(TestCase):
             'test_version.py'
         ]
         for root, dirs, files in os.walk(test_path):
-            print(root)
-            print(dirs)
-            print(files)
             result += list(filter(filters.files, files))
-        print(expected)
-        print(result)
         expected.sort()
         result.sort()
-        print(expected)
-        print(result)
         self.assertListEqual(result, expected)
 
     def test_02(self):
@@ -63,6 +55,8 @@ class TestXoboxUtilsFilters(TestCase):
         test_module = importlib.import_module('tests.t_utils.test_filters')
         result = list(filter(filters.members, dir(test_module)))
         expected = ['TestCase', 'TestXoboxUtilsFilters', 'filters', 'importlib', 'os']
+        expected.sort()
+        result.sort()
         self.assertListEqual(result, expected)
 
     def test_03(self):
@@ -76,4 +70,6 @@ class TestXoboxUtilsFilters(TestCase):
         gen_dir = os.listdir(test_path)
         result = list(filter(filters.modules, gen_dir))
         expected = ['t_cli', 't_conf', 't_core', 't_scripts', 't_utils', 'test_xobox.py']
+        expected.sort()
+        result.sort()
         self.assertListEqual(result, expected)
