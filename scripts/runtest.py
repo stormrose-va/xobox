@@ -115,21 +115,19 @@ def main():
 
     # look recursively for Python modules in ``test_dir`` and find all classes within those
     # modules derived from :py:class:`~unittest.TestCase`
-    for root, dirs, files in os.walk(test_dir):
-        module_prefix = '.'.join(str(os.path.relpath(root, os.path.dirname(test_dir))).split(os.path.sep))
-        for mod in filter(filters.files, files):
-            try:
-                candidate = importlib.import_module('.'.join((module_prefix, os.path.splitext(mod)[0])))
-            except ImportError:
-                candidate = None
-            if candidate:
-                for member in filter(filters.members, dir(candidate)):
-                    try:
-                        if issubclass(getattr(candidate, member), unittest.TestCase) \
-                           and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
-                            test_classes.append(getattr(candidate, member))
-                    except TypeError:
-                        pass
+    for mod in __get_modules(test_dir, filters.files):
+        try:
+            candidate = importlib.import_module(mod)
+        except ImportError:
+            candidate = None
+        if candidate:
+            for member in filter(filters.members, dir(candidate)):
+                try:
+                    if issubclass(getattr(candidate, member), unittest.TestCase) \
+                       and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
+                        test_classes.append(getattr(candidate, member))
+                except TypeError:
+                    pass
 
     return_code = EX_OK
 
