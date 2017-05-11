@@ -175,6 +175,9 @@ def __write_stats(results, skipped, failed):
     total_failed = 0
     total_skipped = 0
 
+    template = "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}"
+    template += "     {ratio: >3.2%}"
+
     print("\nxobox Unit Test Result Summary:\n\nPython version: {}\n".format(__get_version()))
     print("Test                               Passed   Failed   Skipped   Total    % passed")
     print("================================================================================")
@@ -185,7 +188,7 @@ def __write_stats(results, skipped, failed):
         total_passed = total_tests - total_failed - total_skipped
         ratio = __calc_ratio(results[key][2] - results[key][0] - results[key][1], results[key][2] - results[key][1])
         print(
-            "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}".format(
+            template.format(
                 test=key,
                 passed=results[key][2] - results[key][0] - results[key][1],
                 failed=results[key][0],
@@ -196,7 +199,7 @@ def __write_stats(results, skipped, failed):
     print("================================================================================")
     ratio = __calc_ratio(total_passed, total_tests - total_skipped)
     print(
-        "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}\n".format(
+        (template+"\n").format(
             test="TOTAL",
             passed=total_passed,
             failed=total_failed,
