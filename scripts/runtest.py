@@ -98,6 +98,25 @@ def __get_modules(path, filter_function):
             yield '.'.join((module_prefix, os.path.splitext(mod)[0]))
 
 
+def __get_candidates(path, module_filter, member_filter):
+    """
+    Generate candidates from a given path
+    
+    :param str path:         location on the file system to scan
+    :param module_filter:    reference to the module filter function to be used
+    :param member_filter:    reference to the member filter function to be used
+    :return:                 iterable for tuples of candidate and member
+    """
+    for mod in __get_modules(path, module_filter):
+        try:
+            candidate = importlib.import_module(mod)
+        except ImportError:
+            candidate = None
+        if candidate:
+            for member in filter(member_filter, dir(candidate)):
+                yield (candidate, member)
+
+
 def main():
     """
     xobox test script main function
@@ -115,19 +134,13 @@ def main():
 
     # look recursively for Python modules in ``test_dir`` and find all classes within those
     # modules derived from :py:class:`~unittest.TestCase`
-    for mod in __get_modules(test_dir, filters.files):
+    for candidate, member in __get_candidates(test_dir, filters.files, filters.members):
         try:
-            candidate = importlib.import_module(mod)
-        except ImportError:
-            candidate = None
-        if candidate:
-            for member in filter(filters.members, dir(candidate)):
-                try:
-                    if issubclass(getattr(candidate, member), unittest.TestCase) \
-                       and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
-                        test_classes.append(getattr(candidate, member))
-                except TypeError:
-                    pass
+            if issubclass(getattr(candidate, member), unittest.TestCase) \
+               and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
+                test_classes.append(getattr(candidate, member))
+        except TypeError:
+            pass
 
     return_code = EX_OK
 
