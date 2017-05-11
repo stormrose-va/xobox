@@ -43,27 +43,6 @@ def __get_version(version=None):
     return main_part + sub
 
 
-def __write_untested(label, result):
-    """
-    Print information on non-executed tests
-    
-    :param str label: type of the untested (either 'Skipped' or 'Failed')
-    :param result:    test result set
-    """
-    if result:
-        print('{} Test Cases:\n'.format(label))
-        for res in result:
-            if label == "Skipped":
-                info = res[2]
-            else:
-                info = res[3]
-            print('   {module} {test}: {info}'.format(
-                module=res[0],
-                test=' '.join(str(res[1]).split(" ")[0].split('_')),
-                info=info.strip())
-            )
-
-
 def __get_untested(test_class, test_set):
     """
     Prepare a list of not run tests
@@ -117,6 +96,25 @@ def __get_candidates(path, module_filter, member_filter):
                 yield (candidate, member)
 
 
+def __get_tests(path, test_class, module_filter, member_filter):
+    """
+    Generate test case classes from a given path
+    
+    :param str path:         location on the file system to scan
+    :param test_class:       class the test case classes have to inherit from
+    :param module_filter:    reference to the module filter function to be used
+    :param member_filter:    reference to the member filter function to be used
+    :return:                 iterable of test case classes
+    """
+    for candidate, member in __get_candidates(path, module_filter, member_filter):
+        try:
+            if issubclass(getattr(candidate, member), test_class) \
+               and getattr(candidate, member).__name__ != test_class.__name__:
+                yield getattr(candidate, member)
+        except TypeError:
+            pass
+
+
 def __calc_ratio(dividend, divisor):
     """
     Calculate the ratio dividend:divisor
@@ -133,6 +131,82 @@ def __calc_ratio(dividend, divisor):
     except ZeroDivisionError:
         result = 1
     return result
+
+
+def __write_untested(label, result):
+    """
+    Print information on non-executed tests
+
+    :param str label: type of the untested (either 'Skipped' or 'Failed')
+    :param result:    test result set
+    """
+    if result:
+        print('{} Test Cases:\n'.format(label))
+        for res in result:
+            if label == "Skipped":
+                info = res[2]
+            else:
+                info = res[3]
+            print('   {module} {test}: {info}'.format(
+                module=res[0],
+                test=' '.join(str(res[1]).split(" ")[0].split('_')),
+                info=info.strip())
+            )
+
+
+def __write_stats(results, skipped, failed):
+    """
+    Print test stats to stdout
+    
+    :param dict results: test results dictionary
+    :param list skipped: list of skipped tests
+    :param list failed:  list of failed tests
+    """
+    total_tests = 0
+    total_passed = 0
+    total_failed = 0
+    total_skipped = 0
+
+    print("\nxobox Unit Test Result Summary:\n\nPython version: {}\n".format(__get_version()))
+    print("Test                               Passed   Failed   Skipped   Total    % passed")
+    print("================================================================================")
+    for key in sorted(results):
+        total_tests += results[key][2]
+        total_skipped += results[key][1]
+        total_failed += results[key][0]
+        total_passed = total_tests - total_failed - total_skipped
+        ratio = __calc_ratio(results[key][2] - results[key][0] - results[key][1], results[key][2] - results[key][1])
+        print(
+            "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}".format(
+                test=key,
+                passed=results[key][2] - results[key][0] - results[key][1],
+                failed=results[key][0],
+                skipped=results[key][1],
+                total=results[key][2],
+                ratio=ratio
+            ))
+    print("================================================================================")
+    ratio = __calc_ratio(total_passed, total_tests - total_skipped)
+    print(
+        "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}\n".format(
+            test="TOTAL",
+            passed=total_passed,
+            failed=total_failed,
+            skipped=total_skipped,
+            total=total_tests,
+            ratio=ratio
+        ))
+    __write_untested('Skipped', skipped)
+
+    if failed and skipped:
+        print('\n')
+
+    __write_untested('Failed', failed)
+
+    if total_passed < (total_tests - total_skipped):
+        print("\nOverall Test Result: FAILED.\n")
+    else:
+        print("\nOverall Test Result: PASSED.\n")
 
 
 def main():
@@ -178,50 +252,8 @@ def main():
         if result.failures or result.errors:
             return_code = EX_SOFTWARE
 
-    total_tests = 0
-    total_passed = 0
-    total_failed = 0
-    total_skipped = 0
+    __write_stats(results, skipped, failed)
 
-    print("\nxobox Unit Test Result Summary:\n\nPython version: {}\n".format(__get_version()))
-    print("Test                               Passed   Failed   Skipped   Total    % passed")
-    print("================================================================================")
-    for key in sorted(results):
-        total_tests += results[key][2]
-        total_skipped += results[key][1]
-        total_failed += results[key][0]
-        total_passed = total_tests - total_failed - total_skipped
-        ratio = __calc_ratio(results[key][2] - results[key][0] - results[key][1], results[key][2] - results[key][1])
-        print(
-            "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}".format(
-            test=key,
-            passed=results[key][2]-results[key][0]-results[key][1],
-            failed=results[key][0],
-            skipped=results[key][1],
-            total=results[key][2],
-            ratio=ratio
-        ))
-    print("================================================================================")
-    ratio = __calc_ratio(total_passed, total_tests - total_skipped)
-    print("{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}\n".format(
-        test="TOTAL",
-        passed=total_passed,
-        failed=total_failed,
-        skipped=total_skipped,
-        total=total_tests,
-        ratio=ratio
-    ))
-    __write_untested('Skipped', skipped)
-
-    if failed and skipped:
-        print('\n')
-
-    __write_untested('Failed', failed)
-
-    if total_passed < (total_tests - total_skipped):
-        print("\nOverall Test Result: FAILED.\n")
-    else:
-        print("\nOverall Test Result: PASSED.\n")
     return return_code
 
 
