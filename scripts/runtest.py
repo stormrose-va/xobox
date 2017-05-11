@@ -25,20 +25,30 @@ except ImportError:
     EX_SOFTWARE = 1
 
 
-def __get_version():
-    """Derive a PEP440-compliant version number from sys.version_info."""
-    version = sys.version_info
+def __get_version_main_part(version):
+    """Derive PEP440-compliant main part from a valid version quintuple"""
     parts = 2 if version[2] == 0 else 3
-    main_part = '.'.join(str(x) for x in version[:parts])
+    return '.'.join(str(x) for x in version[:parts])
 
+
+def __get_version_sub_part(version):
+    """Derive PEP440-compliant sub part from a valid version quintuple"""
     sub = ''
     if version[3] == 'alpha' and version[4] == 0:
         sub = '.dev'
     elif version[3] != 'final':
         mapping = {'alpha': 'a', 'beta': 'b', 'rc': 'rc'}
         sub = mapping[version[3]] + str(version[4])
+    return sub
 
-    return main_part + sub
+
+def __get_version():
+    """Derive a PEP440-compliant version number from sys.version_info."""
+    version = sys.version_info
+    main_part = __get_version_main_part(version)
+    sub_part = __get_version_sub_part(version)
+
+    return main_part + sub_part
 
 
 def __get_untested(test_class, test_set):
