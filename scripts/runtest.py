@@ -221,18 +221,12 @@ def main():
 
     from xobox.utils import filters
 
-    test_classes = []
     test_dir = os.path.join(xobox_path, 'tests')
 
     # look recursively for Python modules in ``test_dir`` and find all classes within those
     # modules derived from :py:class:`~unittest.TestCase`
-    for candidate, member in __get_candidates(test_dir, filters.files, filters.members):
-        try:
-            if issubclass(getattr(candidate, member), unittest.TestCase) \
-               and getattr(candidate, member).__name__ != unittest.TestCase.__name__:
-                test_classes.append(getattr(candidate, member))
-        except TypeError:
-            pass
+    # noinspection PyTypeChecker
+    test_classes = list(__get_tests(test_dir, unittest.TestCase, filters.files, filters.members))
 
     return_code = EX_OK
 
