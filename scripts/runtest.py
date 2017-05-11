@@ -117,6 +117,24 @@ def __get_candidates(path, module_filter, member_filter):
                 yield (candidate, member)
 
 
+def __calc_ratio(dividend, divisor):
+    """
+    Calculate the ratio dividend:divisor
+    
+    This is a simple wrapper to perform an arithmetic division calculation.
+    In case of failure (e. g. divisor = zero), a result of 1 is returned.
+    
+    :param dividend: dividend number
+    :param divisor:  divisor number
+    :return:         float
+    """
+    try:
+        result = float(dividend) / float(divisor)
+    except ZeroDivisionError:
+        result = 1
+    return result
+
+
 def main():
     """
     xobox test script main function
@@ -173,10 +191,7 @@ def main():
         total_skipped += results[key][1]
         total_failed += results[key][0]
         total_passed = total_tests - total_failed - total_skipped
-        try:
-            ratio = float(results[key][2] - results[key][0] - results[key][1]) / float(results[key][2] - results[key][1])
-        except ZeroDivisionError:
-            ratio = 1
+        ratio = __calc_ratio(results[key][2] - results[key][0] - results[key][1], results[key][2] - results[key][1])
         print(
             "{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}".format(
             test=key,
@@ -187,10 +202,7 @@ def main():
             ratio=ratio
         ))
     print("================================================================================")
-    try:
-        ratio = float(total_passed) / float(total_tests-total_skipped)
-    except ZeroDivisionError:
-        ratio = 1
+    ratio = __calc_ratio(total_passed, total_tests - total_skipped)
     print("{test: <32}      {passed: >3d}      {failed: >3d}      {skipped: >4d}     {total: >3d}     {ratio: >3.2%}\n".format(
         test="TOTAL",
         passed=total_passed,
