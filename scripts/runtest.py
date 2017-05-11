@@ -25,11 +25,9 @@ except ImportError:
     EX_SOFTWARE = 1
 
 
-def __get_version(version=None):
-    """Derive a PEP440-compliant version number from VERSION."""
-    version = version or sys.version_info
-    assert len(version) == 5
-    assert version[3] in ('alpha', 'beta', 'rc', 'final')
+def __get_version():
+    """Derive a PEP440-compliant version number from sys.version_info."""
+    version = sys.version_info
     parts = 2 if version[2] == 0 else 3
     main_part = '.'.join(str(x) for x in version[:parts])
 
