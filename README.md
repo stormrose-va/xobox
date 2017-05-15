@@ -1,5 +1,6 @@
 # xobox
 
+[![Documentation Status](https://readthedocs.org/projects/xobox/badge/?version=latest)](https://xobox.readthedocs.io/?badge=latest)
 [![Join the chat at https://gitter.im/stormrose-va/xobox](https://badges.gitter.im/stormrose-va/xobox.svg)](https://gitter.im/stormrose-va/xobox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/stormrose-va/xobox.svg?branch=master)](https://travis-ci.org/stormrose-va/xobox)
 [![Code Climate](https://codeclimate.com/github/stormrose-va/xobox/badges/gpa.svg)](https://codeclimate.com/github/stormrose-va/xobox)
@@ -17,5 +18,4 @@ final report will become.
 ### Documentation
 
 xobox’ documentation is perpetually updated from the project’s central git repository’s master branch and published on
-GitHub pages. To ensure you work with the latest version available, please make sure to access the documentation
-exclusively at [xobox’ GitHub pages](https://stormrose-va.github.io/xobox/).
+[Read the Docs](https://readthedocs.org/). To ensure you work with the latest version available, please make sure to access the documentation exclusively at [xobox’ documentation pages](https://xobox.readthedocs.io/).
