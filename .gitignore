@@ -4,6 +4,9 @@
 out
 gen
 
+# Visual Studio Code project files
+.vscode
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
