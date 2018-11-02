@@ -1,6 +1,1 @@
-appdirs>=1.4.3
-coverage>=4.3.4
-codeclimate-test-reporter>=0.2.1
-Sphinx>=1.5.5
-sphinx-rtd-theme>=0.2.4
-travis-sphinx>=1.4.1
+-r requirements/production.txt

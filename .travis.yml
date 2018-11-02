@@ -6,14 +6,14 @@ python:
   - "3.6"
 
 install:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - python -m pip install --upgrade pip
+  - pip install -r requirements/development.txt
 
 script:
   - coverage run --source=xobox scripts/runtest.py
   - coverage report
-  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master build; fi
+  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx build; fi
 
 after_success:
   - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then CODECLIMATE_REPO_TOKEN=5e6c134005b05a58897baf876391c108b2fab570103fe28030792a48baa001d4 codeclimate-test-reporter
-  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx --branches=master deploy; fi
+  - if [[ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]]; then travis-sphinx deploy; fi
