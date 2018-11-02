@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xobox.conf &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">xobox Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../xobox.html">xobox</a> &raquo;</li>
+        
+      <li>xobox.conf</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xobox.conf</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    xobox.conf</span>
+<span class="sd">    ~~~~~~~~~~</span>
+<span class="sd">    :copyright: Copyright 2017 by the Stormrose Project team, see AUTHORS.</span>
+<span class="sd">    :license: MIT License, see LICENSE for details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">default</span>
+<span class="kn">from</span> <span class="nn">..utils.dynamic</span> <span class="k">import</span> <span class="n">DynamicIterable</span>
+<span class="kn">from</span> <span class="nn">..utils.singleton</span> <span class="k">import</span> <span class="n">Singleton</span>
+
+
+<div class="viewcode-block" id="get_conf"><a class="viewcode-back" href="../../ref/conf.html#xobox.conf.get_conf">[docs]</a><span class="k">def</span> <span class="nf">get_conf</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a global configuration value by its key.</span>
+<span class="sd">    </span>
+<span class="sd">    :param str key: string identifying the requested configuration value</span>
+<span class="sd">    :returns: the requested configuration value or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">configuration</span> <span class="o">=</span> <span class="n">ApplicationConf</span><span class="o">.</span><span class="n">get_instance</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">configuration</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<span class="nd">@Singleton</span>
+<span class="k">class</span> <span class="nc">ApplicationConf</span><span class="p">(</span><span class="n">DynamicIterable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Global xobox configuration object.</span>
+<span class="sd">    </span>
+<span class="sd">    This class acts as a proxy to all configuration information set in</span>
+<span class="sd">    :py:mod:`~xobox.conf.default`. The configuration data can be</span>
+<span class="sd">    accessed either as :py:func:`property` of the :py:class:`~xobox.conf.ApplicationConf`</span>
+<span class="sd">    object, or as *(key, value)* pair via the :py:class:`~xobox.conf.ApplicationConf`</span>
+<span class="sd">    dictionary interface.</span>
+<span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       Only uppercase configuration values are taken into account. However, when querying</span>
+<span class="sd">       for an item, it will also be recognized if it is in lower or mixed case since this</span>
+<span class="sd">       class takes care of converting all query keys to upper key before looking for them.</span>
+<span class="sd">       </span>
+<span class="sd">    Along with each *DEFAULT_...* configuration member, also a corresponding non-default member</span>
+<span class="sd">    is created. E. g. alongside with *DEFAULT_CHARSET*, also the non-default *CHARSET*</span>
+<span class="sd">    member is created. Other than *DEFAULT_* members, non-default members are mutable, so their</span>
+<span class="sd">    values can be updated during runtime.</span>
+<span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       Although non-default members are mutable, they cannot be deleted if they belong to a</span>
+<span class="sd">       *DEFAULT_* member. Deleting them only resets them to their original DEFAULT value.</span>
+<span class="sd">       </span>
+<span class="sd">    This class is implemented following the singleton pattern. Therefore,</span>
+<span class="sd">    in order to getting a reference to the class&#39; instance, the</span>
+<span class="sd">    :py:meth:`~xobox.utils.singleton.Singleton.get_instance` method has to be used.</span>
+<span class="sd">    </span>
+<span class="sd">    Example::</span>
+<span class="sd">    </span>
+<span class="sd">       configuration = ApplicationConf.get_instance()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-set&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_uppercase</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-get&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_uppercase</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-del&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_uppercase</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-set&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_defaults_not_mutable</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-del&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_defaults_not_mutable</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-set&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_default_create_mirror</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-del&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hook_default_mirror_reset</span><span class="p">)</span>
+
+        <span class="c1"># convert all upper case configuration values from :py:module:`~xobox.conf.default`</span>
+        <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">default</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">setting</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">setting</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">setting</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update configuration with information from configuration file.</span>
+<span class="sd">        </span>
+<span class="sd">        Only values will be considered if the appropriate key has been defined in</span>
+<span class="sd">        :py:module:`~xobox.conf.default`. Other values are ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;CONF_FILE&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">sect</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">sections</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="n">sect</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="n">sect</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_hook_uppercase</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hook method ensuring that all keys are kept in upper case.</span>
+<span class="sd">        To be applied as pre-set, pre-get and pre-del hook.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_hook_defaults_not_mutable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hook method ensuring ``DEFAULT`` values do not get overwritten.</span>
+<span class="sd">        To be applied as pre-set and pre-del hook.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;DEFAULT_&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;DEFAULT configuration settings are immutable!&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_hook_default_create_mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hook method ensuring for all ``DEFAULT`` values, a mutable mirror is created.</span>
+<span class="sd">        To be applied as pre-set hook.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;DEFAULT_&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">[</span><span class="mi">8</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_hook_default_mirror_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hook method ensuring that mirror values of ``DEFAULT`` entries are reset to</span>
+<span class="sd">        their default parent instead of really being deleted.</span>
+<span class="sd">        To be applied as pre-del hook.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;DEFAULT_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;DEFAULT_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)])</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

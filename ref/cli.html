@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xobox’ Command Line Interface &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="xobox’ Application Configuration" href="conf.html" />
+    <link rel="prev" title="xobox Package API" href="xobox.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xobox.html">xobox Package API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">xobox’ Command Line Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-xobox.cli.dispatch">Dispatcher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-commands">Command Line Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-a-command-line-command">Writing a Command Line Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-xobox.cli.commands">Existing Command Line Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-xobox.cli.logger">Logging Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="conf.html">xobox’ Application Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/index.html">xobox Core Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/index.html">Utility Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Documentation</a> &raquo;</li>
+        
+      <li>xobox’ Command Line Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/ref/cli.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-xobox.cli">
+<span id="xobox-command-line-interface"></span><h1>xobox’ Command Line Interface<a class="headerlink" href="#module-xobox.cli" title="Permalink to this headline">¶</a></h1>
+<p>xobox’ command line interface is contained within the <a class="reference internal" href="#module-xobox.cli" title="xobox.cli: xobox' command line interface"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xobox.cli</span></code></a> package. It offers only one function at
+package level which can be called directly. This function is usually called from a Python script acting as executable
+interface.</p>
+<dl class="function">
+<dt id="xobox.cli.execute">
+<code class="descclassname">xobox.cli.</code><code class="descname">execute</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli.html#execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function being called from the executable to launch the CLI.
+This is the initial entrance point for any xobox processing.
+Usually, this function is invoked by an executable Python script
+to start the actual xobox CLI process. This could look like the
+following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">xobox.cli</span> <span class="k">import</span> <span class="n">execute</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">execute</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argv</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – list of (command line) arguments</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference internal" href="#xobox.cli.execute" title="xobox.cli.execute"><code class="xref py py-func docutils literal notranslate"><span class="pre">execute()</span></code></a> function will create a <a class="reference internal" href="#xobox.cli.dispatch.CommandDispatcher" title="xobox.cli.dispatch.CommandDispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandDispatcher</span></code></a>
+instance, which provides the logic for invoking a command.</p>
+</dd></dl>
+
+<div class="section" id="module-xobox.cli.dispatch">
+<span id="dispatcher"></span><h2>Dispatcher<a class="headerlink" href="#module-xobox.cli.dispatch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="xobox.cli.dispatch.CommandDispatcher">
+<em class="property">class </em><code class="descclassname">xobox.cli.dispatch.</code><code class="descname">CommandDispatcher</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/dispatch.html#CommandDispatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class encapsulating the logic for starting a command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argv</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – list of (command line) arguments</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="xobox.cli.dispatch.CommandDispatcher.command_usage">
+<code class="descname">command_usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/dispatch.html#CommandDispatcher.command_usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher.command_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the appropriate command usage message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.dispatch.CommandDispatcher.execute">
+<code class="descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/dispatch.html#CommandDispatcher.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Based on the given command line arguments and the available subcommands,
+this method creates the appropriate command line parser and starts the
+corresponding subcommand.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.dispatch.CommandDispatcher.global_usage">
+<code class="descname">global_usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/dispatch.html#CommandDispatcher.global_usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher.global_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the appropriate global usage message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.dispatch.CommandDispatcher.help">
+<code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/dispatch.html#CommandDispatcher.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reply to a user’s help request</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.dispatch.CommandDispatcher.status">
+<code class="descname">status</code><a class="headerlink" href="#xobox.cli.dispatch.CommandDispatcher.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit status</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="command-line-commands">
+<h2>Command Line Commands<a class="headerlink" href="#command-line-commands" title="Permalink to this headline">¶</a></h2>
+<p>Command line commands are implemented as modules within the <a class="reference internal" href="#module-xobox.cli.commands" title="xobox.cli.commands: package containing all command line commands"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xobox.cli.commands</span></code></a> package.
+The module name itself must be unique within the <a class="reference internal" href="#module-xobox.cli.commands" title="xobox.cli.commands: package containing all command line commands"><code class="xref py py-mod docutils literal notranslate"><span class="pre">commands</span></code></a> package, but has no
+direct link to the command’s external designator used on the command line.</p>
+<span class="target" id="module-xobox.cli.base"></span><p>All command line commands are implemented as classes, inheriting from <a class="reference internal" href="#xobox.cli.base.BaseCommand" title="xobox.cli.base.BaseCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">xobox.cli.base.BaseCommand</span></code></a>:</p>
+<dl class="class">
+<dt id="xobox.cli.base.BaseCommand">
+<em class="property">class </em><code class="descclassname">xobox.cli.base.</code><code class="descname">BaseCommand</code><span class="sig-paren">(</span><em>global_args=None</em>, <em>cmd_args=None</em>, <em>logger=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base class from which all CLI commands derive.</p>
+<p>Attributes affecting the behaviour of a Command object:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">help</span></code></dt>
+<dd>A short description of the command, which will be used
+to construct help messages or usage instructions for the
+command.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt>
+<dd>The name under which the command is known. Internally, the name only
+differs from an alias in the fact that it’s used as the “main” alias
+in help and usage messages.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">aliases</span></code></dt>
+<dd>A tuple of alias names for the command</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">arguments</span></code></dt>
+<dd>A tuple of arguments accepted by the command. Each argument
+consists of a tuple with two elements.
+The first element is a tuple containing the short and long
+option identifiers; e. g. (‘-f’, ‘–foo’)
+The second element is a dictionary containing arbitrary elements.
+All keyword arguments accepted by <a class="reference external" href="https://docs.python.org/library/argparse.html#argparse.ArgumentParser.add_argument" title="(in Python v3.6)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argparse.ArgumentParser.add_argument()</span></code></a>
+are allowed as key names within this dictionary.</dd>
+</dl>
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.execute">
+<code class="descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up environment for running the command. Then call the
+handle() method which needs to be implemented by each command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.get_command_argument">
+<code class="descname">get_command_argument</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.get_command_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.get_command_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a command argument value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.get_global_argument">
+<code class="descname">get_global_argument</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.get_global_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.get_global_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a global argument value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.handle">
+<code class="descname">handle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The handle method contains the actual code for the command.
+This method needs to be implemented for each command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log">
+<code class="descname">log</code><span class="sig-paren">(</span><em>level</em>, <em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging shortcut for convenience</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log_debug">
+<code class="descname">log_debug</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug logging short cut method for convenience</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log_error">
+<code class="descname">log_error</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error logging short cut method for convenience</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log_info">
+<code class="descname">log_info</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Info logging short cut method for convenience</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log_notice">
+<code class="descname">log_notice</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log_notice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log_notice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notice logging short cut method for convenience</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.base.BaseCommand.log_warning">
+<code class="descname">log_warning</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/base.html#BaseCommand.log_warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.base.BaseCommand.log_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warning logging short cut method for convenience</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="writing-a-command-line-command">
+<h3>Writing a Command Line Command<a class="headerlink" href="#writing-a-command-line-command" title="Permalink to this headline">¶</a></h3>
+<p>Writing a command line command can be as easy as creating a Python module within the
+<a class="reference internal" href="#module-xobox.cli.commands" title="xobox.cli.commands: package containing all command line commands"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xobox.cli.commands</span></code></a> package containing a class inheriting from
+<a class="reference internal" href="#xobox.cli.base.BaseCommand" title="xobox.cli.base.BaseCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCommand</span></code></a> and overriding some basic settings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xobox.cli.base</span> <span class="kn">import</span> <span class="n">BaseCommand</span>
+
+<span class="k">class</span> <span class="nc">MyCommand</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">)</span>
+   <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
+   <span class="n">aliases</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">)</span>
+   <span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;The super foo command that makes you bar&#39;</span>
+</pre></div>
+</div>
+<p>Looks easy? It actually is, since <a class="reference internal" href="#xobox.cli.dispatch.CommandDispatcher" title="xobox.cli.dispatch.CommandDispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandDispatcher</span></code></a>
+is performing all the black magic needed to detect available commands, make up decent usage
+messages out of the information provided by each command’s implementation, parsing eventual
+command line arguments required by the different commands and finally setting up the environment
+and running the command.</p>
+<p>Unfortunately, this command would not be of any use – once invoked by the dispatcher, it will
+simply raise a <a class="reference external" href="https://docs.python.org/library/exceptions.html#NotImplementedError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> exception. This is simply for the fact that each
+command needs to implement its own <a class="reference internal" href="#xobox.cli.base.BaseCommand.handle" title="xobox.cli.base.BaseCommand.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle()</span></code></a> method.
+Since this has not happened here, the <a class="reference internal" href="#xobox.cli.base.BaseCommand.handle" title="xobox.cli.base.BaseCommand.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle()</span></code></a> method
+inherited from the <a class="reference internal" href="#xobox.cli.dispatch.CommandDispatcher" title="xobox.cli.dispatch.CommandDispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandDispatcher</span></code></a> class will be used, and
+this one simply raises a <a class="reference external" href="https://docs.python.org/library/exceptions.html#NotImplementedError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> exception.</p>
+<p>When implementing your own <a class="reference internal" href="#xobox.cli.base.BaseCommand.handle" title="xobox.cli.base.BaseCommand.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle()</span></code></a> method, please
+take care of the following conventions.</p>
+<div class="section" id="user-interaction">
+<h4>User Interaction<a class="headerlink" href="#user-interaction" title="Permalink to this headline">¶</a></h4>
+<p>Whenever possible, user interaction shall be avoided. The concept of xobox is to gather all
+required information either form command line arguments or from configuration files, and then to
+run silently, only outputting status information according to the log level set by the user.</p>
+<p>This restriction has been set in order to respecting that one important use case is to run
+xobox as batch job, where no user interaction is possible.</p>
+</div>
+<div class="section" id="output">
+<h4>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h4>
+<p>All output to the user interface shall be channelled through the appropriate <code class="docutils literal notranslate"><span class="pre">log_...()</span></code> methods
+each command class has inherited from the <a class="reference internal" href="#xobox.cli.base.BaseCommand" title="xobox.cli.base.BaseCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCommand</span></code></a> class.
+This ensures the output is only sent if the user has selected the corresponding log level, and it
+is sent through the right channel.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>Never</strong> use Python’s <a class="reference external" href="https://docs.python.org/library/functions.html#print" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> function to generate and send output to the user
+interface. This will break xobox’s promise of being 100% batch job enabled, including
+logging its output to a file.</p>
+</div>
+</div>
+<div class="section" id="status">
+<h4>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h4>
+<p>xobox uses the <code class="xref py py-attr docutils literal notranslate"><span class="pre">status</span></code> property any command
+has inherited from the <a class="reference internal" href="#xobox.cli.base.BaseCommand" title="xobox.cli.base.BaseCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCommand</span></code></a> class for setting an
+appropriate exit status when terminating xobox’s main process.</p>
+<p>By default, a command object’s status is set to <a class="reference external" href="https://docs.python.org/library/os.html#os.EX_OK" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.EX_OK</span></code></a>. If necessary or appropriate, the
+status information can be changed within the <a class="reference internal" href="#xobox.cli.base.BaseCommand.handle" title="xobox.cli.base.BaseCommand.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">handle()</span></code></a> method
+by overwriting the internal <code class="docutils literal notranslate"><span class="pre">_status</span></code> member:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+   <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">xobox</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">EX_USAGE</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="module-xobox.cli.commands">
+<span id="existing-command-line-commands"></span><h3>Existing Command Line Commands<a class="headerlink" href="#module-xobox.cli.commands" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-xobox.cli.commands.version">
+<span id="version-command"></span><h4>Version Command<a class="headerlink" href="#module-xobox.cli.commands.version" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="xobox.cli.commands.version.VersionCommand">
+<em class="property">class </em><code class="descclassname">xobox.cli.commands.version.</code><code class="descname">VersionCommand</code><span class="sig-paren">(</span><em>global_args=None</em>, <em>cmd_args=None</em>, <em>logger=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/commands/version.html#VersionCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command class implementing the version command.</p>
+<dl class="attribute">
+<dt id="xobox.cli.commands.version.VersionCommand.aliases">
+<code class="descname">aliases</code><em class="property"> = ('--version', '-v')</em><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand.aliases" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.commands.version.VersionCommand.arguments">
+<code class="descname">arguments</code><em class="property"> = ((('-s', '--short'), {'help': 'only print the version string', 'action': 'store_true'}),)</em><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand.arguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.commands.version.VersionCommand.handle">
+<code class="descname">handle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/xobox/cli/commands/version.html#VersionCommand.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command handler for the version command</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.commands.version.VersionCommand.help">
+<code class="descname">help</code><em class="property"> = 'Show version and copyright information'</em><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.commands.version.VersionCommand.name">
+<code class="descname">name</code><em class="property"> = 'version'</em><a class="headerlink" href="#xobox.cli.commands.version.VersionCommand.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="module-xobox.cli.logger">
+<span id="logging-interface"></span><h2>Logging Interface<a class="headerlink" href="#module-xobox.cli.logger" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-xobox.cli.logger" title="xobox.cli.logger: xobox' output interface"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logger</span></code></a> module is responsible for handling any
+output that shall be transported to the user. It implements the magic behind
+the <code class="docutils literal notranslate"><span class="pre">log_...()</span></code> methods provided by the <a class="reference internal" href="#xobox.cli.dispatch.CommandDispatcher" title="xobox.cli.dispatch.CommandDispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandDispatcher</span></code></a>
+class, allowing command implementations to easily transporting information to the user interface.</p>
+<p>The <a class="reference internal" href="#module-xobox.cli.logger" title="xobox.cli.logger: xobox' output interface"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logger</span></code></a> module provides a class interface,
+offering a flexible message output system:</p>
+<dl class="class">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger">
+<em class="property">class </em><code class="descclassname">xobox.cli.logger.</code><code class="descname">Logger</code><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.get_instance">
+<code class="descname">get_instance</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.get_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the reference to the instance of <a class="reference internal" href="#xobox.cli.logger.xobox.cli.logger.Logger" title="xobox.cli.logger.xobox.cli.logger.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code></a>. If no
+instance exists yet, one will be created and its reference returned.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If a logger instance already exists (e. g. due to an earlier invocation from another
+module or function), any passed keyword arguments will be ignored. Therefore, it is
+safer to not using any keyword arguments, but setting the logger’s properties appropriately
+after having received the logger instance’s reference.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log">
+<code class="descname">log</code><span class="sig-paren">(</span><em>level</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a log message within the logging queue and flush the queue afterwards (currently
+log messages are not cached).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>level</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The log level to be used for the message to be passed. Must be one of
+<em>error</em>, <em>warning</em>, <em>notice</em>, <em>info</em>, <em>debug</em> or <em>usage</em>.</li>
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_error">
+<code class="descname">log_error</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>error</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_warning">
+<code class="descname">log_warning</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>warning</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_notice">
+<code class="descname">log_notice</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_notice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>notice</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_info">
+<code class="descname">log_info</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>info</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_debug">
+<code class="descname">log_debug</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>debug</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.log_usage">
+<code class="descname">log_usage</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.log_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience shortcut for registering messages with log level <cite>usage</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The message string to be recorded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.color">
+<code class="descname">color</code><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean switch indicating whether this logger allows colored output.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.file">
+<code class="descname">file</code><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The log file used when run as file logger. Must be a string indicating the
+path name of the file to log into.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.level">
+<code class="descname">level</code><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.level" title="Permalink to this definition">¶</a></dt>
+<dd><p>The log level (string). Expected to be one of <cite>mute</cite>, <cite>error</cite>, <cite>warning</cite>, <cite>info</cite> or <cite>debug</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xobox.cli.logger.xobox.cli.logger.Logger.type">
+<code class="descname">type</code><a class="headerlink" href="#xobox.cli.logger.xobox.cli.logger.Logger.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The logger type (string). Expected to be one of <cite>term</cite> or <cite>file</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="conf.html" class="btn btn-neutral float-right" title="xobox’ Application Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="xobox.html" class="btn btn-neutral" title="xobox Package API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

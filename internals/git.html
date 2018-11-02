@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Source Code Repository &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Issue Management" href="issues.html" />
+    <link rel="prev" title="Project Roles" href="roles.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Project Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="code-style.html">Coding Style Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roles.html">Project Roles</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Source Code Repository</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#repository-structure">Repository Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#protected-branches">Protected Branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#feature-branches">Feature Branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#release-branches">Release Branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hotfix-branches">Hotfix Branches</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#git-workflow">Git Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pull-request">Pull Request</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="issues.html">Issue Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Project Documentation</a> &raquo;</li>
+        
+      <li>Source Code Repository</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/internals/git.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="source-code-repository">
+<h1>Source Code Repository<a class="headerlink" href="#source-code-repository" title="Permalink to this headline">¶</a></h1>
+<p id="blessed-repository">xobox uses <a class="reference external" href="http://git-scm.com/">Git</a> for managing source code repositories. The project’s “blessed” Git repository (<code class="docutils literal notranslate"><span class="pre">origin</span></code>) resides at
+<a class="reference external" href="https://github.com/stormrose-va/xobox">GitHub</a>. It is publicly accessible, but only <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team members</span></a> can push into this blessed
+repository. <a class="reference internal" href="roles.html#developers"><span class="std std-ref">Developers</span></a> and other contributors are requested to fork the repository into their
+personal space and offer code changes as <a class="reference internal" href="#pull-request"><span class="std std-ref">pull request</span></a>.</p>
+<div class="section" id="repository-structure">
+<h2>Repository Structure<a class="headerlink" href="#repository-structure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="protected-branches">
+<span id="id1"></span><h3>Protected Branches<a class="headerlink" href="#protected-branches" title="Permalink to this headline">¶</a></h3>
+<p>The eternal branch, <code class="docutils literal notranslate"><span class="pre">master</span></code>, is managed as <a class="reference external" href="https://help.github.com/articles/about-protected-branches/">protected branch</a>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">master</span></code> is the main (eternal) branch. It represents the latest state of development.</li>
+<li>direct commits to <code class="docutils literal notranslate"><span class="pre">master</span></code> are not permitted, instead, <a class="reference internal" href="#pull-request"><span class="std std-ref">pull requests</span></a> have to be used</li>
+</ul>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">master</span></code>, also <a class="reference internal" href="#release-branches"><span class="std std-ref">release branches</span></a> become protected branches after the
+initial version (patch level zero) has been released.</p>
+</div>
+<div class="section" id="feature-branches">
+<span id="id2"></span><h3>Feature Branches<a class="headerlink" href="#feature-branches" title="Permalink to this headline">¶</a></h3>
+<p>Feature branches are used to develop new features for the upcoming or a distant future release. When starting
+development of a feature, the target release in which this feature will be incorporated may well be unknown at that
+point. The essence of a feature branch is that it exists as long as the feature is in development, but will eventually
+be merged back into <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Feature branches are not intended to exist in the <a class="reference internal" href="#blessed-repository"><span class="std std-ref">blessed repository</span></a> itself, but instead
+they should be limited to forks and local clones of the project’s <a class="reference external" href="http://git-scm.com/">Git</a> repository (<code class="docutils literal notranslate"><span class="pre">origin</span></code>).</p>
+</div>
+<ul class="simple">
+<li>Feature branches must be branched off <code class="docutils literal notranslate"><span class="pre">master</span></code></li>
+<li>Feature branches must relate to a GitHub issue</li>
+<li>By convention, their name shall be prefixed with <code class="docutils literal notranslate"><span class="pre">feature/</span></code> and the issue ID they refer to</li>
+<li>Feature branches merge back into <code class="docutils literal notranslate"><span class="pre">master</span></code> via <a class="reference internal" href="#pull-request"><span class="std std-ref">pull request</span></a></li>
+<li>Feature branches are deleted after being merged back into <code class="docutils literal notranslate"><span class="pre">master</span></code>. They typically exist in developer repos only,
+but not in <code class="docutils literal notranslate"><span class="pre">origin</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="release-branches">
+<span id="id3"></span><h3>Release Branches<a class="headerlink" href="#release-branches" title="Permalink to this headline">¶</a></h3>
+<p>Release branches support preparation of a new production release. They allow for last-minute minor bug fixes and
+preparing meta-data for a release (version number, build dates, etc.). Beyond preparation, they also serve as
+maintenance branches for a release post publication of that release. Once being in maintenance mode, release branches
+are managed as <a class="reference internal" href="#protected-branches"><span class="std std-ref">protected branches</span></a>.</p>
+<ul class="simple">
+<li>Release branches must be branched off <code class="docutils literal notranslate"><span class="pre">master</span></code></li>
+<li>By convention, their name shall be prefixed with <code class="docutils literal notranslate"><span class="pre">release/</span></code>, followed by the release’s version number
+(<code class="docutils literal notranslate"><span class="pre">release/&lt;version&gt;</span></code>). The version number is a combination of <code class="docutils literal notranslate"><span class="pre">major.minor</span></code>, without <code class="docutils literal notranslate"><span class="pre">patch</span></code> suffix.</li>
+<li>Release branches merge back into <code class="docutils literal notranslate"><span class="pre">master</span></code> via <a class="reference internal" href="#pull-request"><span class="std std-ref">pull request</span></a>. A merge of
+a release branch back into <code class="docutils literal notranslate"><span class="pre">master</span></code> absolutely requires a release tag to be set on the head of the release
+branch prior merging.</li>
+</ul>
+</div>
+<div class="section" id="hotfix-branches">
+<span id="id4"></span><h3>Hotfix Branches<a class="headerlink" href="#hotfix-branches" title="Permalink to this headline">¶</a></h3>
+<p>Hotfix branches are very much like feature branches in that they are also meant to introduce code changes into a
+<a class="reference internal" href="#protected-branches"><span class="std std-ref">protected branch</span></a>, albeit unplanned. They arise from the necessity to act immediately
+upon an undesired state of a maintained, published production version. When a critical bug in a production version
+must be resolved immediately, a hotfix branch may be branched off from the corresponding release branch that marks the
+production version.</p>
+<ul class="simple">
+<li>Hotfix branches must be branched off the corresponding release tag on the corresponding release branch</li>
+<li>By convention, their name shall be prefixed with <code class="docutils literal notranslate"><span class="pre">hotfix/</span></code>, followed by the release’s version number and hotfix
+suffix, as well as a reference to the corresponding <a class="reference internal" href="issues.html#issues"><span class="std std-ref">issue</span></a>
+(<code class="docutils literal notranslate"><span class="pre">hotfix/&lt;version&gt;/&lt;issue</span> <span class="pre">id&gt;/&lt;description&gt;</span></code>).</li>
+<li>Hotfix branches merge back into the release branch eventually into <code class="docutils literal notranslate"><span class="pre">master</span></code> via <a class="reference internal" href="#pull-request"><span class="std std-ref">pull request</span></a>.
+A merge of a hotfix branch back into <code class="docutils literal notranslate"><span class="pre">master</span></code> is only recommended if <code class="docutils literal notranslate"><span class="pre">master</span></code> has not evolved/diverged so much
+from the release maintenance branch that the fix hasn’t lost its relevance. In such a case, a cherry-pick is
+potentially the right approach instead of a fully-fledged merge.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="git-workflow">
+<span id="id5"></span><h2>Git Workflow<a class="headerlink" href="#git-workflow" title="Permalink to this headline">¶</a></h2>
+<p>For the xobox project, we chose to follow a dedicated flow for development. The following graph illustrates the flow:</p>
+<img alt="../_images/advanced-git-branching-model.png" src="../_images/advanced-git-branching-model.png" />
+<p>The development of a new feature, or the improvement of an existing feature (including bug fixing) always starts with
+opening an <a class="reference internal" href="issues.html"><span class="doc">issue</span></a>. Once the issue is created and assigned, a feature branch has to be created, following
+this naming convention:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="o">/&lt;</span><span class="n">class</span><span class="o">&gt;/&lt;</span><span class="n">issue</span> <span class="nb">id</span><span class="o">&gt;/&lt;</span><span class="n">description</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please note that the branch name must comply with reference name rules (cf. <a class="reference external" href="https://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html">git check-ref-format</a>).</p>
+</div>
+<p>The <strong>Issue ID</strong> is the numerical identifier generated by GitHub, padded to six digits (left padding with <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p>
+<p>The <strong>class</strong> may be one of</p>
+<ul class="simple">
+<li><em>new</em> – for new features</li>
+<li><em>imp</em> – for optimisation or enhancement</li>
+<li><em>doc</em> – for documentation only updates</li>
+<li><em>pro</em> – for project related changes (code reorganization, governance changes, …)</li>
+<li><em>qca</em> – for quality control &amp; assurance related changes (policy, code quality, …)</li>
+</ul>
+<p>Do the following in your local copy of your <strong>own fork</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git fetch
+git checkout master
+git pull
+git checkout -b feature/new/001234/supergadget master
+</pre></div>
+</div>
+<p>As soon as the feature branch is created and work has started, the related <a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">issue status</span></a> should be
+updated to “in progress”.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Do not use issue closing hooks (e. g. <code class="docutils literal notranslate"><span class="pre">Fixes</span> <span class="pre">#1234</span></code>) in your commit messages when committing to the feature branch.
+Closing the issue is reserved for the pull request.</p>
+</div>
+<p>Once the work on the feature branch is done and continuous integration testing shows positive results, a
+<a class="reference internal" href="#pull-request"><span class="std std-ref">pull request</span></a> can be opened to notify the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>. The
+<a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">status</span></a> of the corresponding issue should be updated to “ready”.</p>
+<p>In case of acceptance, the pull request is authorised by a core team member, the feature branch gets merged into
+<code class="docutils literal notranslate"><span class="pre">master</span></code> and can then deleted in your fork. The <a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">issue status</span></a> is updated to “Integration”, which
+means the issue can now be tested in the nightly builds.</p>
+<p>Further reading on related models, including corresponding <a class="reference external" href="http://git-scm.com/">Git</a> command line instructions:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://daemotron.github.io/2017/05/02/Git-Flow-Groundhog-Day.html">GitFlow Groundhog Day</a></li>
+<li><a class="reference external" href="http://endoflineblog.com/oneflow-a-git-branching-model-and-workflow">OneFlow - a Git branching model and workflow</a></li>
+<li><a class="reference external" href="http://www.bitsnbites.eu/a-stable-mainline-branching-model-for-git/">A stable mainline branching model for Git</a></li>
+<li><a class="reference external" href="https://barro.github.io/2016/02/a-succesful-git-branching-model-considered-harmful/">A successful Git branching model considered harmful</a></li>
+</ul>
+</div>
+<div class="section" id="pull-request">
+<span id="id6"></span><h2>Pull Request<a class="headerlink" href="#pull-request" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://help.github.com/articles/about-pull-requests/">GitHub Pull Requests</a> are used to merge new code from a <a class="reference internal" href="#feature-branches"><span class="std std-ref">feature branch</span></a> into a
+<a class="reference internal" href="#protected-branches"><span class="std std-ref">protected branch</span></a> or from one protected branch into another.</p>
+<p>This section concentrates on pull requests opened by <a class="reference internal" href="roles.html#developers"><span class="std std-ref">developers</span></a> in order to have a feature
+branch merged into <code class="docutils literal notranslate"><span class="pre">origin/master</span></code>. Any other case, where pull requests are used (e. g. cleansing of branches etc.)
+are processes solely played within the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">When opening a pull request from your personal fork, please consider the hints given in
+<a class="reference external" href="https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/">Allowing Changes to a Pull Request</a>. Otherwise it might be difficult to proceed with the PR.</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Before opening a pull request, please ensure your feature branch is updated (rebased) to the latest <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> of
+<code class="docutils literal notranslate"><span class="pre">origin/master</span></code>, to ensure that only intended code changes become part of your PR.</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">You can use a pull request for intermediate reviews with the core team. In that case, keep the
+<a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">status</span></a> of the corresponding issue set to “in progress”, prefix the merge
+request title with <code class="docutils literal notranslate"><span class="pre">[WIP]</span></code> and do <strong>not</strong> assign the pull request to anyone.</p>
+</div>
+<p>Pull requests may be accepted straight away (mostly in very simple cases, e. g. a simple bug fix) – although this most
+likely will rather be an exception. In such a case, the <a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">status</span></a> of the corresponding issue will be
+updated to “Integration” by the core team member who accepted the pull request.</p>
+<p>If otherwise the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a> accepts the pull request for review, they will update the
+<a class="reference internal" href="issues.html#issue-status"><span class="std std-ref">issue status</span></a> to “Review” and assign a core team member to the pull request. In this
+(much more likely) scenario, the core team member in charge will review the content of the change request and its
+implications for the code in <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> together with the <a class="reference internal" href="roles.html#developers"><span class="std std-ref">developer</span></a> who opened the pull
+request.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not abuse pull requests to mature your code. As a general rule, a pull request should only be opened
+if implementation work on the feature branch is completed, and CI testing gives a green status.</p>
+</div>
+<p>In case of obvious immaturity or non-quality, non-compliance with governance and <a class="reference internal" href="code-style.html"><span class="doc">coding style</span></a>, a
+pull request may be rejected by the core team. In such a case, the core team member rejecting the pull request shall
+write a justification statement (as a comment on the pull request), explaining why this pull request has been
+rejected.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="issues.html" class="btn btn-neutral float-right" title="Issue Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="roles.html" class="btn btn-neutral" title="Project Roles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

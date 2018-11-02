@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Release Management &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Documentation" href="../ref/index.html" />
+    <link rel="prev" title="Issue Management" href="issues.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Project Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="code-style.html">Coding Style Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roles.html">Project Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html">Source Code Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="issues.html">Issue Management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Release Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-scheme">Version Scheme</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#release-process">Release Process</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stage-1-code-slush">Stage 1: Code Slush</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-2-code-freeze">Stage 2: Code Freeze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-3-pre-release">Stage 3: Pre-Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-4-release">Stage 4: Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-5-maintenance">Stage 5: Maintenance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Project Documentation</a> &raquo;</li>
+        
+      <li>Release Management</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/internals/release.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="release-management">
+<h1>Release Management<a class="headerlink" href="#release-management" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-scheme">
+<span id="version"></span><h2>Version Scheme<a class="headerlink" href="#version-scheme" title="Permalink to this headline">¶</a></h2>
+<p>xobox follows a <a class="reference external" href="http://semver.org/">semantic</a> version scheme complying with <a class="reference external" href="https://www.python.org/dev/peps/pep-0440/">PEP 440</a>. Version indicators are of the form</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">major.minor[.patch][{a|b|rc|.dev}N]</span></code></div></blockquote>
+<p>with the following meaning of version components:</p>
+<dl class="docutils">
+<dt>major</dt>
+<dd>The major version number, indicating the release family. Changes breaking backwards compatibility shall
+entail an increase of the major version number.</dd>
+<dt>minor</dt>
+<dd>The minor version number, indicating the version inside a release family. Changes not breaking backwards
+compatibility (e. g. an additional feature or option) shall entail an increase of the minor version number.</dd>
+<dt>patch</dt>
+<dd>The patch number. By default, all releases start with patch number <code class="docutils literal notranslate"><span class="pre">0</span></code>. In this case, the patch number is
+omitted from the version information. Patches indicate errata fixes (either concerning security or functionality),
+but are limited to changes not modifying the product functionality or even breaking compatibility.</dd>
+<dt>pre-release suffix (a, b, rc)</dt>
+<dd>Suffix indicating a pre-release stage of the current version, i. e. “alpha” (indicated by a), “beta” (indicated by
+b) or “release candidate” (indicated by rc) versions. Any pre-release suffix is mandatorily followed by a numeric
+sequence indicator (i. e. a1 = “alpha number one”, rc2 = “release candidate number two”).</dd>
+<dt>.dev suffix</dt>
+<dd>The .dev suffix is mutually exclusive to pre-release suffices and indicates a version that is still under
+development. The .dev suffix is always followed by a numeric indicator pointing to the corresponding Git commit.</dd>
+</dl>
+<p>Internally, version numbers are represented as Python tuple with the following elements:</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">(major,</span> <span class="pre">minor,</span> <span class="pre">patch,</span> <span class="pre">stage,</span> <span class="pre">suffix)</span></code></div></blockquote>
+<p>Major, minor and patch are numeric (non-negative integers) with the same meaning as indicated above.</p>
+<dl class="docutils">
+<dt>stage</dt>
+<dd>is a string, reading either <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, <code class="docutils literal notranslate"><span class="pre">rc</span></code>, or <code class="docutils literal notranslate"><span class="pre">final</span></code>, marking the stage of development.</dd>
+<dt>suffix</dt>
+<dd>is numeric (non-negative integer) and indicates the sequence for stages <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">beta</span></code> and <code class="docutils literal notranslate"><span class="pre">rc</span></code>. For
+the <code class="docutils literal notranslate"><span class="pre">final</span></code> stage, suffix has to be zero. If stage is set to <code class="docutils literal notranslate"><span class="pre">alpha</span></code> and the suffix is zero, this has a
+special meaning (development version, designated with a <code class="docutils literal notranslate"><span class="pre">.devN</span></code> suffix). For <code class="docutils literal notranslate"><span class="pre">beta</span></code> and <code class="docutils literal notranslate"><span class="pre">rc</span></code> stages,
+suffix must be greater than zero (minimum 1).</dd>
+</dl>
+</div>
+<div class="section" id="release-process">
+<h2>Release Process<a class="headerlink" href="#release-process" title="Permalink to this headline">¶</a></h2>
+<p>Once all feature branches selected for a specific release are finalized and merged back in <code class="docutils literal notranslate"><span class="pre">origin/master</span></code>, the
+release process can start.</p>
+<div class="section" id="stage-1-code-slush">
+<h3>Stage 1: Code Slush<a class="headerlink" href="#stage-1-code-slush" title="Permalink to this headline">¶</a></h3>
+<p>The first phase of a release publishing cycle starts with a code slush. Under code slush, <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> is not hard
+protected against any change, but stabilization PRs (i. e. bug fixes, quality improvements) will get a higher priority.
+The priority order expressed in PR classes:</p>
+<ol class="arabic simple">
+<li><em>qca</em> (bug fixes, quality improvements)</li>
+<li><em>doc</em> (documentation updates and polishing)</li>
+<li><em>imp</em> (improvements, enhancements, optimisation)</li>
+</ol>
+<p><em>new</em> and <em>pro</em> class PRs should be avoided and postponed to after the release has been finalized.</p>
+<p>The code slush phase ends with production of the first alpha release.</p>
+</div>
+<div class="section" id="stage-2-code-freeze">
+<h3>Stage 2: Code Freeze<a class="headerlink" href="#stage-2-code-freeze" title="Permalink to this headline">¶</a></h3>
+<p>The second phase begins with the release of the first alpha version. From here on, a strict code freeze is imposed on
+<code class="docutils literal notranslate"><span class="pre">origin/master</span></code>. This means no PRs will be accepted and merged unless linked to the upcoming release. Normally, this
+means only <em>qca</em> class PRs linked to issues related to the upcoming release milestone will be considered.</p>
+<p>Under code freeze, alpha and beta versions are tagged in master and released for wider testing.</p>
+</div>
+<div class="section" id="stage-3-pre-release">
+<h3>Stage 3: Pre-Release<a class="headerlink" href="#stage-3-pre-release" title="Permalink to this headline">¶</a></h3>
+<p>If maturity in <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> is considered sufficient for release, a dedicated
+<a class="reference internal" href="git.html#release-branches"><span class="std std-ref">release branch</span></a> for the release is created (<code class="docutils literal notranslate"><span class="pre">release/major.minor</span></code>). The code freeze on
+master persists. From now on, release-related <em>qca</em> fixes are to be applied to the release branch. During the
+pre-release phase, release candidate releases are tagged in the release branch and published to further mature the
+release.</p>
+</div>
+<div class="section" id="stage-4-release">
+<h3>Stage 4: Release<a class="headerlink" href="#stage-4-release" title="Permalink to this headline">¶</a></h3>
+<p>As soon as the maturity in the release branch is sufficient for a final release, all pending PRs have to be either
+merged or rejected. The head of the release branch has to be tagged with the final release number, and the release
+branch has thereafter to be converted into a <a class="reference external" href="https://help.github.com/articles/about-protected-branches/">protected branch</a>.</p>
+<p>The release itself has to be created on GitHub using the final release tag as anchor reference.</p>
+<p>The release branch has now to be merged back into <code class="docutils literal notranslate"><span class="pre">origin/master</span></code>, and with a further local PR, the version in
+<code class="docutils literal notranslate"><span class="pre">origin/master</span></code> has to be bumped to the next release cycle (this is no final decision, it can be reverted at a later
+stage). This formally lifts the code freeze on <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> and allows to proceed with PRs that use a properly
+rebased feature branch with most recent changes in <code class="docutils literal notranslate"><span class="pre">origin/master</span></code>.</p>
+</div>
+<div class="section" id="stage-5-maintenance">
+<h3>Stage 5: Maintenance<a class="headerlink" href="#stage-5-maintenance" title="Permalink to this headline">¶</a></h3>
+<p>As the release branch is now managed as protected branch, direct commits to this branch are no longer possible.
+Instead, if a published release needs fixing, and the fix is well contained so it can be contained as patch and not
+as minor or even major release change, the following procedure has to be applied:</p>
+<p>A <a class="reference internal" href="git.html#hotfix-branches"><span class="std std-ref">hotfix branch</span></a> has to be created (outside``origin``), based on the release branch at the
+last published version tag. There the necessary amendments can be developed and matured. Once finalized, the hotfix
+branch has to be merged back into the release branch via pull request, and subsequently a new patch version has to be
+tagged in the release branch, and the new patch release shall be published.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Support for all prior versions from a release branch cedes the moment a new patch version is published.</p>
+</div>
+<p>As a final step after a patch has been published, the fix needs to be introduced to <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> if still
+applicable there (e. g. an intermediate architectural change could have removed entirely the concerned code from
+<code class="docutils literal notranslate"><span class="pre">origin/master</span></code>). If still applicable, the method of injection has to be chosen on how far <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> has
+diverted from the (now patched) release branch.</p>
+<p>If both branches are still closely enough together, a pull request would be the preferred technique to merge the
+changes into <code class="docutils literal notranslate"><span class="pre">origin/master</span></code>. If however both branches have diverted significantly (e. g. due to long-term support),
+other techniques such as cherry-picking the patch commit or even a “manual” injection via a dedicated feature branch
+might be the appropriate solution.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">While bringing a fix back into <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> is mandatory, the choice of technique to accomplish this is
+subject to common sense of the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>, as it is nearly impossible to anticipate any
+combination of factors that might arise in the future around that subject.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ref/index.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="issues.html" class="btn btn-neutral" title="Issue Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

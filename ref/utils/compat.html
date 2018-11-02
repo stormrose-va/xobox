@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Compatibility Utility &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Convert Utility" href="convert.html" />
+    <link rel="prev" title="Utility Modules" href="index.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../xobox.html">xobox Package API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">xobox’ Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conf.html">xobox’ Application Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">xobox Core Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Utility Modules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Compatibility Utility</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#constants">Constants</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="convert.html">Convert Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic.html">Dynamic Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loader.html">Loader Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="singleton.html">Singleton Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="termcolor.html">Termcolor Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version Utility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="index.html">Utility Modules</a> &raquo;</li>
+        
+      <li>Compatibility Utility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/ref/utils/compat.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-xobox.utils.compat">
+<span id="compatibility-utility"></span><h1>Compatibility Utility<a class="headerlink" href="#module-xobox.utils.compat" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#module-xobox.utils.compat" title="xobox.utils.compat: compatibility utility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compat</span></code></a> module provides data, functions and classes whose interfaces have
+changed with newer Python versions, or which are not available on all operating systems supported by
+xobox. This allows using the most recent interface of these functions and classes within the xobox code,
+without hacking around all along the code. Therefore, this module centralises all the dirty hacks which
+become necessary when the Python standard library does not provide its own compatibility layer.</p>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="xobox.utils.compat.EX_OK">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_OK</code><em class="property"> = 0</em><a class="headerlink" href="#xobox.utils.compat.EX_OK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means no error occurred.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_USAGE">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_USAGE</code><em class="property"> = 64</em><a class="headerlink" href="#xobox.utils.compat.EX_USAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means the command was used incorrectly, such as when the wrong number of arguments are given.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_DATAERR">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_DATAERR</code><em class="property"> = 65</em><a class="headerlink" href="#xobox.utils.compat.EX_DATAERR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means the input data was incorrect.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_NOINPUT">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_NOINPUT</code><em class="property"> = 66</em><a class="headerlink" href="#xobox.utils.compat.EX_NOINPUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means an input file did not exist or was not readable.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_NOUSER">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_NOUSER</code><em class="property"> = 67</em><a class="headerlink" href="#xobox.utils.compat.EX_NOUSER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means a specified user did not exist.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_NOHOST">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_NOHOST</code><em class="property"> = 68</em><a class="headerlink" href="#xobox.utils.compat.EX_NOHOST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means a specified host did not exist.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_UNAVAILABLE">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_UNAVAILABLE</code><em class="property"> = 69</em><a class="headerlink" href="#xobox.utils.compat.EX_UNAVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means that a required service is unavailable.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_SOFTWARE">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_SOFTWARE</code><em class="property"> = 70</em><a class="headerlink" href="#xobox.utils.compat.EX_SOFTWARE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means an internal software error was detected.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_OSERR">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_OSERR</code><em class="property"> = 71</em><a class="headerlink" href="#xobox.utils.compat.EX_OSERR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means an operating system error was detected, such as the inability to fork or create a pipe.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_OSFILE">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_OSFILE</code><em class="property"> = 72</em><a class="headerlink" href="#xobox.utils.compat.EX_OSFILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means some system file did not exist, could not be opened, or had some other kind of error.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_CANTCREAT">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_CANTCREAT</code><em class="property"> = 73</em><a class="headerlink" href="#xobox.utils.compat.EX_CANTCREAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means a user specified output file could not be created.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_IOERR">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_IOERR</code><em class="property"> = 74</em><a class="headerlink" href="#xobox.utils.compat.EX_IOERR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means that an error occurred while doing I/O on some file.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_TEMPFAIL">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_TEMPFAIL</code><em class="property"> = 75</em><a class="headerlink" href="#xobox.utils.compat.EX_TEMPFAIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means a temporary failure occurred. This indicates something that may not really be an error,
+such as a network connection that couldn’t be made during a retryable operation.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_PROTOCOL">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_PROTOCOL</code><em class="property"> = 76</em><a class="headerlink" href="#xobox.utils.compat.EX_PROTOCOL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means that a protocol exchange was illegal, invalid, or not understood.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_NOPERM">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_NOPERM</code><em class="property"> = 77</em><a class="headerlink" href="#xobox.utils.compat.EX_NOPERM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means that there were insufficient permissions to perform the operation (but not intended
+for file system problems).</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_CONFIG">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_CONFIG</code><em class="property"> = 78</em><a class="headerlink" href="#xobox.utils.compat.EX_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means that some kind of configuration error occurred.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="xobox.utils.compat.EX_NOTFOUND">
+<code class="descclassname">xobox.utils.compat.</code><code class="descname">EX_NOTFOUND</code><em class="property"> = 16</em><a class="headerlink" href="#xobox.utils.compat.EX_NOTFOUND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code that means something like “an entry was not found”.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="convert.html" class="btn btn-neutral float-right" title="Convert Utility" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Utility Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

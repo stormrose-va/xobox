@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coding Style Guide &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Project Roles" href="roles.html" />
+    <link rel="prev" title="Project Documentation" href="index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Project Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Style Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-compatibility">Python Compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-libraries">Using Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-style">Code Style</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#indentation">Indentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-file-encoding">Source File Encoding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#import-statements">Import Statements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inline-documentation">Inline Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-documentation">API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unit-testing">Unit Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="roles.html">Project Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html">Source Code Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="issues.html">Issue Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Project Documentation</a> &raquo;</li>
+        
+      <li>Coding Style Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/internals/code-style.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="coding-style-guide">
+<h1>Coding Style Guide<a class="headerlink" href="#coding-style-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In brief: stick to <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> and <a class="reference external" href="http://www.python.org/dev/peps/pep-0257/">PEP 257</a>, and you will be fine in 99% of all cases that may occur. But since those
+two PEPs only refer to code style and inline documentation, you might want to continue reading this style guide,
+particularly considering the sections on unit tests and documentation.</p>
+</div>
+<div class="section" id="python-compatibility">
+<h2>Python Compatibility<a class="headerlink" href="#python-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>The Air-Child Payslip code has to be compatible with Python 3.4, 3.5, 3.6 and newer versions. There is no need for
+backwards compatibility to Python’s 3.3, 3.2, 3.1, 2.x or earlier branches. In consequence, all functions, classes,
+data types etc. available either built-in or by the Python standard library may be used. However, functions,
+classes, data types etc. introduced with a Python version newer than the ones explicitly covered may <strong>not</strong>
+be used or have to be wrapped by a compatibility layer.</p>
+</div>
+<div class="section" id="using-libraries">
+<h2>Using Libraries<a class="headerlink" href="#using-libraries" title="Permalink to this headline">¶</a></h2>
+<p>Functionality provided by the Python standard library may be used without any further restriction (apart from the
+Python version restriction indicated above). In order to avoiding a dependency hell, using third party libraries
+should strictly be limited to cases where the third party library</p>
+<ul class="simple">
+<li>is written in pure Python code</li>
+<li>is well documented</li>
+<li>is actively maintained</li>
+<li>has a stable API</li>
+<li>is available via the <a class="reference external" href="https://pypi.python.org/pypi">Python Package Index</a></li>
+</ul>
+<p>Any third party library usage needs to be announced within the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file residing in the repository’s
+root directory.</p>
+</div>
+<div class="section" id="code-style">
+<h2>Code Style<a class="headerlink" href="#code-style" title="Permalink to this headline">¶</a></h2>
+<p>In general, <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> really covers what needs being said about code style. However, there are some points that might
+need clarification; in particular when to deviate from the <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> instructions…</p>
+<div class="section" id="indentation">
+<h3>Indentation<a class="headerlink" href="#indentation" title="Permalink to this headline">¶</a></h3>
+<p>As specified by <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a>, the general rule is to use 4 spaces (no tabs!) for code indentation. However, in multi-line
+constructs it is <em>mandatory</em> to line up the closing brace/bracket/parenthesis with the first character of the line
+where the multi-line construct was started:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;goo&#39;</span><span class="p">:</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="source-file-encoding">
+<h3>Source File Encoding<a class="headerlink" href="#source-file-encoding" title="Permalink to this headline">¶</a></h3>
+<p>All source files must be encoded in UTF-8 <em>without</em> BOM, and introduce their encoding in the first line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># ... more stuff that&#39;s not interesting right now...</span>
+</pre></div>
+</div>
+<p>The only exception from this mandatory file header is a completely empty file such as an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file
+bearing no code at all. In this specific case, the file size has to be zero bytes.</p>
+</div>
+<div class="section" id="import-statements">
+<h3>Import Statements<a class="headerlink" href="#import-statements" title="Permalink to this headline">¶</a></h3>
+<p>In general, following the rules as specified in <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> should generate compliant code. However, importing with an
+alias name should be avoided:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># not ok</span>
+<span class="kn">from</span> <span class="nn">xobox.something</span> <span class="k">import</span> <span class="n">SomeClass</span> <span class="k">as</span> <span class="n">OtherClass</span>
+
+<span class="c1"># ok</span>
+<span class="kn">from</span> <span class="nn">xobox.something</span> <span class="k">import</span> <span class="n">SomeClass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="inline-documentation">
+<h2>Inline Documentation<a class="headerlink" href="#inline-documentation" title="Permalink to this headline">¶</a></h2>
+<p>All functions, classes, methods and class members must be documented using Python docstrings. All docstrings (except
+those for class members) have to be written as multi-line docstrings, surrounded with three double quotes on a
+separate line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">foo</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the foo class&#39; docstring</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: I am the docstring of a class member</span>
+    <span class="n">_foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        I am the class constructor&#39;s docstring</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The following rules shall be regarded when writing docstrings:</p>
+<ul class="simple">
+<li>Methods and functions docstrings shall document all arguments (except <code class="docutils literal notranslate"><span class="pre">self</span></code>) by the
+<code class="docutils literal notranslate"><span class="pre">:param</span> <span class="pre">&lt;type&gt;</span> <span class="pre">&lt;name&gt;:</span> <span class="pre">description</span></code> statement</li>
+<li>Constructor parameters shall be documented in the class’ docstring instead of the constructor’s docstring</li>
+<li>Methods and functions (except properties) returning something shall document their return behaviour by the
+<code class="docutils literal notranslate"><span class="pre">:returns</span> <span class="pre">&lt;description&gt;</span></code> statement.</li>
+</ul>
+</div>
+<div class="section" id="api-documentation">
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<p>All packages, modules, classes, exceptions and functions defined within this project must be documented
+within the <a class="reference internal" href="../ref/index.html"><span class="doc">API documentation</span></a>. The minimum documentation would be one of the <em>autodoc</em> variants
+offered by <a class="reference external" href="http://sphinx-doc.org">Sphinx</a>, e. g. <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">autoclass::</span> <span class="pre">classname</span></code>.</p>
+</div>
+<div class="section" id="unit-testing">
+<h2>Unit Testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h2>
+<p>All classes, exceptions, methods and functions defined within this project shall be covered by a corresponding unit
+test. For this purpose, each package shall be mirrored by a corresponding package within the <code class="docutils literal notranslate"><span class="pre">tests</span></code> package. By
+convention, the test package shall bear the same name as the corresponding code package, but prefixed with <code class="docutils literal notranslate"><span class="pre">t_</span></code> (to
+avoid cluttering of the name space). Modules inside a package shall be mirrored the same way, but prefixed with
+<code class="docutils literal notranslate"><span class="pre">test_</span></code>.</p>
+<p>The sub-structure there below (i. e. within the test modules) may be chosen as suitable for the respective application
+package, based on the following set of rules:</p>
+<ul class="simple">
+<li>Tests for each function or class shall be represented by a dedicated test case class</li>
+<li>Test case classes have to inherit from <a class="reference external" href="https://docs.python.org/library/unittest.html#unittest.TestCase" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.TestCase</span></code></a></li>
+<li>Each test case class shall reside within a dedicated Python module named <code class="docutils literal notranslate"><span class="pre">test_*.py</span></code>, where <code class="docutils literal notranslate"><span class="pre">*</span></code> should be seen
+as a wild card indicating the module or class being tested with the test cases defined within this module</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All unit tests following the above given guidelines will be automatically detected and run by the unit test command
+<code class="docutils literal notranslate"><span class="pre">scripts/runtest.py</span></code> when executed. This command is used for automated testing.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="roles.html" class="btn btn-neutral float-right" title="Project Roles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Project Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

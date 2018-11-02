@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xobox.utils.version &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">xobox Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../xobox.html">xobox</a> &raquo;</li>
+        
+      <li>xobox.utils.version</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xobox.utils.version</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    xobox.utils.version</span>
+<span class="sd">    ~~~~~~~~~~~~~~~~~~~</span>
+<span class="sd">    :copyright: Copyright 2017 by the Stormrose Project team, see AUTHORS.</span>
+<span class="sd">    :license: MIT License, see LICENSE for details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">.convert</span> <span class="k">import</span> <span class="n">to_str</span>
+<span class="kn">import</span> <span class="nn">xobox</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="get_version"><a class="viewcode-back" href="../../../ref/utils/version.html#xobox.utils.version.get_version">[docs]</a><span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Derives a `PEP 440`_ compliant version number from VERSION, assuming</span>
+<span class="sd">    VERSION is a quintuple consisting of these elements::</span>
+<span class="sd">    </span>
+<span class="sd">       (major, minor, patch, stage, suffix)</span>
+<span class="sd">       </span>
+<span class="sd">    ``major``, ``minor``, ``patch`` and ``suffix`` are integer values, whereas ``stage``</span>
+<span class="sd">    is a string, containing one of these key words:</span>
+<span class="sd">    </span>
+<span class="sd">    * *final* means this version is a release. In this case, ``suffix`` will be ignored.</span>
+<span class="sd">    * *candidate* means this version is a release candidate. In this case, ``suffix`` must be</span>
+<span class="sd">      greater than zero and indicate the ordinal numbering of the release candidate.</span>
+<span class="sd">    * *beta* means this version is a beta release. In this case, ``suffix`` must be greater</span>
+<span class="sd">      than zero and indicate the ordinal numbering of the beta release.</span>
+<span class="sd">    * *alpha* means this version is either an alpha release, or a development version.</span>
+<span class="sd">      For the first case, ``suffix`` must be greater than zero and indicate the ordinal</span>
+<span class="sd">      numbering of the alpha release. For the latter case, ``suffix`` must be set to zero.</span>
+<span class="sd">    </span>
+<span class="sd">    The version quintuple may be passed as (only) positional argument, or as value of</span>
+<span class="sd">    the ``version`` keyword argument. If no version quintuple is provided by argument,</span>
+<span class="sd">    :py:data:`xobox.VERSION` is used instead.</span>
+<span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       The keyword argument overrides any positional argument. If two version quintuples are</span>
+<span class="sd">       passed, one by positional and one by keyword argument, the one passed by keyword argument</span>
+<span class="sd">       will win.</span>
+<span class="sd">    </span>
+<span class="sd">    :param args:   positional arguments, of which only the first one (if present) will be taken as version quintuple</span>
+<span class="sd">    :param kwargs: keyword arguments, of which only the value of ``version`` (if present) will be taken as</span>
+<span class="sd">                   version quintuple</span>
+<span class="sd">    :returns: `PEP 440`_ compliant version string</span>
+<span class="sd">    </span>
+<span class="sd">    .. _PEP 440: https://www.python.org/dev/peps/pep-0440/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">xobox</span><span class="o">.</span><span class="n">VERSION</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Now build the two parts of the version number:</span>
+    <span class="c1"># main = X.Y[.Z]</span>
+    <span class="c1"># sub = .devN - for pre-alpha releases</span>
+    <span class="c1">#     | {a|b|rc}N - for alpha, beta and rc releases</span>
+
+    <span class="n">parts</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">version</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">3</span>
+    <span class="n">main</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">version</span><span class="p">[:</span><span class="n">parts</span><span class="p">])</span>
+
+    <span class="n">sub</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">and</span> <span class="n">version</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">git_revision</span> <span class="o">=</span> <span class="n">get_git_changeset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">git_revision</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s1">&#39;.dev</span><span class="si">{revision}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">revision</span><span class="o">=</span><span class="n">git_revision</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s1">&#39;.dev&#39;</span>
+
+    <span class="k">elif</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;final&#39;</span><span class="p">:</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">:</span> <span class="s1">&#39;rc&#39;</span><span class="p">}</span>
+        <span class="n">sub</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">main</span> <span class="o">+</span> <span class="n">sub</span></div>
+
+
+<div class="viewcode-block" id="get_development_status"><a class="viewcode-back" href="../../../ref/utils/version.html#xobox.utils.version.get_development_status">[docs]</a><span class="k">def</span> <span class="nf">get_development_status</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Derive the development status compliant to `PEP 301 Trove Classifiers`_ from VERSION, assuming</span>
+<span class="sd">    VERSION is a quintuple consisting of these elements::</span>
+<span class="sd">    </span>
+<span class="sd">       (major, minor, patch, stage, suffix)</span>
+<span class="sd">       </span>
+<span class="sd">    ``major``, ``minor``, ``patch`` and ``suffix`` are integer values, whereas ``stage``</span>
+<span class="sd">    is a string, containing one of these key words:</span>
+<span class="sd">    </span>
+<span class="sd">    * *final* means this version is a release. In this case, ``suffix`` will be ignored.</span>
+<span class="sd">    * *candidate* means this version is a release candidate. In this case, ``suffix`` must be</span>
+<span class="sd">      greater than zero and indicate the ordinal numbering of the release candidate.</span>
+<span class="sd">    * *beta* means this version is a beta release. In this case, ``suffix`` must be greater</span>
+<span class="sd">      than zero and indicate the ordinal numbering of the beta release.</span>
+<span class="sd">    * *alpha* means this version is either an alpha release, or a development version.</span>
+<span class="sd">      For the first case, ``suffix`` must be greater than zero and indicate the ordinal</span>
+<span class="sd">      numbering of the alpha release. For the latter case, ``suffix`` must be set to zero.</span>
+<span class="sd">    </span>
+<span class="sd">    The version quintuple may be passed as (only) positional argument, or as value of</span>
+<span class="sd">    the ``version`` keyword argument. If no version quintuple is provided by argument,</span>
+<span class="sd">    :py:data:`xobox.VERSION` is used instead.</span>
+<span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       The keyword argument overrides any positional argument. If two version quintuples are</span>
+<span class="sd">       passed, one by positional and one by keyword argument, the one passed by keyword argument</span>
+<span class="sd">       will win.</span>
+<span class="sd">       </span>
+<span class="sd">    :param args:   positional arguments, of which only the first one (if present) will be taken as version quintuple</span>
+<span class="sd">    :param kwargs: keyword arguments, of which only the value of ``version`` (if present) will be taken as</span>
+<span class="sd">                   version quintuple</span>
+<span class="sd">    :returns: Trove classifier string</span>
+<span class="sd">    </span>
+<span class="sd">    .. _PEP 301 Trove Classifiers: http://www.python.org/dev/peps/pep-0301/#distutils-trove-classification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">classifiers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Planning&#39;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Pre-Alpha&#39;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;Alpha&#39;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;Beta&#39;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;Production/Stable&#39;</span><span class="p">,</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;Mature&#39;</span><span class="p">,</span>
+        <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;Inactive&#39;</span>
+    <span class="p">}</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;Development Status :: </span><span class="si">{number}</span><span class="s1"> - </span><span class="si">{Status}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">xobox</span><span class="o">.</span><span class="n">VERSION</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">)</span>
+
+    <span class="n">agent</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">and</span> <span class="n">version</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">agent</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">and</span> <span class="n">version</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">agent</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">):</span>
+        <span class="n">agent</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">elif</span> <span class="n">version</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;final&#39;</span><span class="p">:</span>
+        <span class="n">agent</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">Status</span><span class="o">=</span><span class="n">classifiers</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="get_git_changeset"><a class="viewcode-back" href="../../../ref/utils/version.html#xobox.utils.version.get_git_changeset">[docs]</a><span class="k">def</span> <span class="nf">get_git_changeset</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a numeric identifier of the latest `Git`_ changeset.</span>
+<span class="sd">    </span>
+<span class="sd">    Since the Git revision hash does not fulfil the requirements</span>
+<span class="sd">    of `PEP 440`_, the UTC timestamp in YYYYMMDDHHMMSS format is used</span>
+<span class="sd">    instead. This value is not guaranteed to be unique, however the</span>
+<span class="sd">    likeliness of collisions is small enough to be acceptable for</span>
+<span class="sd">    the purpose of building version numbers.</span>
+<span class="sd">    </span>
+<span class="sd">    :param str path: Path to the `Git`_ repository to detect the latest commit timestamp from.</span>
+<span class="sd">                     If not indicated, the parent path of the xobox package is used.</span>
+<span class="sd">    :returns: a string of the format ``GIT-timestamp`` with timestamp being either a 14 digit</span>
+<span class="sd">              integer, or the string &quot;unknown&quot; in cases where the changeset timestamp could not</span>
+<span class="sd">              be detected.</span>
+<span class="sd">              </span>
+<span class="sd">    .. _PEP 440: https://www.python.org/dev/peps/pep-0440/</span>
+<span class="sd">    .. _Git: http://git-scm.com/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">xobox</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;..&quot;</span><span class="p">))</span>
+
+    <span class="c1"># run `git show` in xobox&#39; root directory and grab its output from stdout</span>
+    <span class="n">git_show</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+        <span class="s1">&#39;git show --pretty=format:</span><span class="si">%c</span><span class="s1">t --quiet HEAD&#39;</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+        <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">git_show</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:&gt;s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H%M%S&#39;</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

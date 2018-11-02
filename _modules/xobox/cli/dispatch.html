@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xobox.cli.dispatch &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">xobox Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../xobox.html">xobox</a> &raquo;</li>
+        
+          <li><a href="../cli.html">xobox.cli</a> &raquo;</li>
+        
+      <li>xobox.cli.dispatch</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xobox.cli.dispatch</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    xobox.cli.dispatch</span>
+<span class="sd">    ~~~~~~~~~~~~~~~~~~</span>
+<span class="sd">    :copyright: Copyright 2017 by the Stormrose Project team, see AUTHORS.</span>
+<span class="sd">    :license: MIT License, see LICENSE for details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">compat</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">loader</span>
+<span class="kn">from</span> <span class="nn">.logger</span> <span class="k">import</span> <span class="n">Logger</span><span class="p">,</span> <span class="n">Levels</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">BaseCommand</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">get_conf</span><span class="p">,</span> <span class="n">ApplicationConf</span>
+
+
+<div class="viewcode-block" id="CommandDispatcher"><a class="viewcode-back" href="../../../ref/cli.html#xobox.cli.dispatch.CommandDispatcher">[docs]</a><span class="k">class</span> <span class="nc">CommandDispatcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class encapsulating the logic for starting a command.</span>
+<span class="sd">    </span>
+<span class="sd">    :param list argv: list of (command line) arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_arguments</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--conf&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;xobox configuration file (defaults to </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">get_conf</span><span class="p">(</span><span class="s1">&#39;CONF_FILE&#39;</span><span class="p">)),</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;metavar&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;conf&gt;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">get_conf</span><span class="p">(</span><span class="s1">&#39;CONF_FILE&#39;</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--dir&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;xobox working directory (defaults to current work directory)&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;metavar&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;path&gt;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--file&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;log into file instead of the terminal&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;metavar&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;file&gt;&#39;</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;show this help message and exit&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--loglevel&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;the log level defines the application</span><span class="se">\&#39;</span><span class="s1">s verbosity&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;metavar&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;loglevel&gt;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;choices&#39;</span><span class="p">:</span> <span class="n">Levels</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-color&#39;</span><span class="p">),</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;do not colorize output&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;store_true&#39;</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="n">get_instance</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span> <span class="o">=</span> <span class="n">argv</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prog</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">compat</span><span class="o">.</span><span class="n">EX_OK</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_commands</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_command</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_command_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_command</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detect available command modules or packages and their alias names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cmds</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">detect_class_modules</span><span class="p">(</span><span class="s1">&#39;xobox.cli.commands&#39;</span><span class="p">,</span> <span class="n">BaseCommand</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">cmds</span><span class="p">:</span>
+            <span class="n">cmd_class</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_member</span><span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="n">cmd</span><span class="p">],</span> <span class="n">cmd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="n">cmd_class</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cmd_class</span>
+            <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">cmd_class</span><span class="o">.</span><span class="n">aliases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span> <span class="ow">or</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;command alias </span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alias</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span><span class="p">[</span><span class="n">alias</span><span class="p">]</span> <span class="o">=</span> <span class="n">cmd_class</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">_set_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split arguments into global and command specific ones</span>
+<span class="sd">        and detect the command or alias</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span> <span class="ow">or</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span><span class="p">:</span>
+                    <span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">position</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_command</span> <span class="o">=</span> <span class="n">arg</span>
+                    <span class="k">elif</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+                    <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">position</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_command_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">[</span><span class="n">position</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_assemble_args</span><span class="p">(</span><span class="n">arguments</span><span class="p">,</span> <span class="n">indent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assemble argument list with a given indentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">maxlen</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">-</span> <span class="n">indent</span>
+        <span class="n">argline</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">argtext</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;action&#39;</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;action&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="s1">&#39;store_false&#39;</span><span class="p">,</span> <span class="s1">&#39;store_const&#39;</span><span class="p">,</span> <span class="s1">&#39;append_const&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">):</span>
+                    <span class="n">argtext</span> <span class="o">=</span> <span class="s2">&quot; [</span><span class="si">{short}</span><span class="s2">|</span><span class="si">{long}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">short</span><span class="o">=</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">long</span><span class="o">=</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;action&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">):</span>
+                    <span class="n">argtext</span> <span class="o">=</span> <span class="s2">&quot; [</span><span class="si">{short}</span><span class="s2"> </span><span class="si">{var}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">short</span><span class="o">=</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">var</span><span class="o">=</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;metavar&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argtext</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">argline</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">maxlen</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">indent</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">+=</span> <span class="n">argline</span>
+                    <span class="n">argline</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">argline</span> <span class="o">+=</span> <span class="n">argtext</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">indent</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">argline</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_assemble_options</span><span class="p">(</span><span class="n">arguments</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assemble options list from an arguments tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;help&#39;</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">help_text</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;help&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">help_text</span> <span class="o">=</span> <span class="s1">&#39;no description available&#39;</span>
+                <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;action&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">):</span>
+                    <span class="n">result</span> <span class="o">+=</span> <span class="s2">&quot;  </span><span class="si">{: &lt;20s}</span><span class="s2">   </span><span class="si">{: &lt;55s}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;metavar&#39;</span><span class="p">],</span>
+                        <span class="n">help_text</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">+=</span> <span class="s2">&quot;  </span><span class="si">{: &lt;20s}</span><span class="s2">   </span><span class="si">{: &lt;55s}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">help_text</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="s2">&quot;  </span><span class="si">{: &lt;20s}</span><span class="s2">   </span><span class="si">{: &lt;55s}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;no description available&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="CommandDispatcher.global_usage"><a class="viewcode-back" href="../../../ref/cli.html#xobox.cli.dispatch.CommandDispatcher.global_usage">[docs]</a>    <span class="k">def</span> <span class="nf">global_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the appropriate global usage message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indent</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span>
+        <span class="n">usage_message</span> <span class="o">=</span> <span class="s2">&quot;usage: </span><span class="si">{executable}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">executable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{arguments}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_assemble_args</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">,</span> <span class="n">indent</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">usage_message</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">19</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">indent</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot; &lt;command&gt; [&lt;args&gt;]&quot;</span>
+        <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Available commands:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;  </span><span class="si">{: &lt;20s}</span><span class="s2">   </span><span class="si">{: &lt;55s}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span><span class="o">.</span><span class="n">help</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Available global options:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_options</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">)</span>
+        <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Use &#39;</span><span class="si">{prog}</span><span class="s2"> help &lt;command&gt;&#39; to learn more about a specific command.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">usage_message</span></div>
+
+<div class="viewcode-block" id="CommandDispatcher.command_usage"><a class="viewcode-back" href="../../../ref/cli.html#xobox.cli.dispatch.CommandDispatcher.command_usage">[docs]</a>    <span class="k">def</span> <span class="nf">command_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the appropriate command usage message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">usage_message</span> <span class="o">=</span> <span class="s2">&quot;usage: </span><span class="si">{prog}</span><span class="s2"> </span><span class="si">{command}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">)</span>
+        <span class="n">indent</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">usage_message</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">arguments</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{arguments}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">arguments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_assemble_args</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">arguments</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">aliases</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Aliases: &quot;</span>
+            <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">aliases</span><span class="p">:</span>
+                <span class="n">usage_message</span> <span class="o">+=</span> <span class="p">(</span><span class="n">alias</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="p">)</span>
+            <span class="n">usage_message</span> <span class="o">=</span> <span class="n">usage_message</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">arguments</span><span class="p">:</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Available command options:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">usage_message</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_options</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">usage_message</span></div>
+
+<div class="viewcode-block" id="CommandDispatcher.help"><a class="viewcode-back" href="../../../ref/cli.html#xobox.cli.dispatch.CommandDispatcher.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reply to a user&#39;s help request</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">log_usage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global_usage</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">log_usage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_usage</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="CommandDispatcher.execute"><a class="viewcode-back" href="../../../ref/cli.html#xobox.cli.dispatch.CommandDispatcher.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Based on the given command line arguments and the available subcommands,</span>
+<span class="sd">        this method creates the appropriate command line parser and starts the</span>
+<span class="sd">        corresponding subcommand.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check if the user asks for help</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">help_indicator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span> <span class="k">for</span> <span class="n">help_indicator</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">])</span> \
+                <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">help_indicator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_args</span> <span class="k">for</span> <span class="n">help_indicator</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c1"># User didn&#39;t ask for help, but seems needing it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">compat</span><span class="o">.</span><span class="n">EX_USAGE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c1"># React on arguments</span>
+        <span class="n">global_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">,</span> <span class="n">usage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_usage</span><span class="p">()[</span><span class="mi">7</span><span class="p">:],</span> <span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">:</span>
+            <span class="c1"># noinspection PyArgumentList</span>
+            <span class="n">global_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">global_args</span> <span class="o">=</span> <span class="n">global_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_args</span><span class="p">)</span>
+        <span class="n">command_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prog</span><span class="p">,</span> <span class="n">usage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">command_usage</span><span class="p">()[</span><span class="mi">7</span><span class="p">:],</span> <span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span><span class="o">.</span><span class="n">arguments</span><span class="p">:</span>
+            <span class="n">command_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">command_args</span> <span class="o">=</span> <span class="n">command_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_args</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;file&#39;</span> <span class="ow">in</span> <span class="n">global_args</span> <span class="ow">and</span> <span class="n">global_args</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">global_args</span><span class="o">.</span><span class="n">file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;file&#39;</span>
+
+        <span class="k">if</span> <span class="s1">&#39;loglevel&#39;</span> <span class="ow">in</span> <span class="n">global_args</span> <span class="ow">and</span> <span class="n">global_args</span><span class="o">.</span><span class="n">loglevel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">global_args</span><span class="o">.</span><span class="n">loglevel</span>
+
+        <span class="k">if</span> <span class="s1">&#39;no_color&#39;</span> <span class="ow">in</span> <span class="n">global_args</span> <span class="ow">and</span> <span class="n">global_args</span><span class="o">.</span><span class="n">no_color</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="s1">&#39;conf&#39;</span> <span class="ow">in</span> <span class="n">global_args</span> <span class="ow">and</span> <span class="n">global_args</span><span class="o">.</span><span class="n">conf</span><span class="p">:</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="n">ApplicationConf</span><span class="o">.</span><span class="n">get_instance</span><span class="p">()</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;CONF_FILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">global_args</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
+
+        <span class="c1"># Create an instance of the called command and execute it</span>
+        <span class="n">command_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commands</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">]</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="n">command_class</span><span class="p">(</span><span class="n">global_args</span><span class="o">=</span><span class="n">global_args</span><span class="p">,</span> <span class="n">cmd_args</span><span class="o">=</span><span class="n">command_args</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">)</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">status</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exit status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

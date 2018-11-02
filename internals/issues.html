@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Issue Management &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Release Management" href="release.html" />
+    <link rel="prev" title="Source Code Repository" href="git.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Project Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="code-style.html">Coding Style Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roles.html">Project Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html">Source Code Repository</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Issue Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#type">Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#priority">Priority</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status">Status</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Project Documentation</a> &raquo;</li>
+        
+      <li>Issue Management</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/internals/issues.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="issue-management">
+<span id="issues"></span><h1>Issue Management<a class="headerlink" href="#issue-management" title="Permalink to this headline">¶</a></h1>
+<p>Issues are managed centrally via <a class="reference external" href="https://github.com/stormrose-va/xobox/issues">GitHub Issues</a>. For better visualisation, the project uses a
+<a class="reference external" href="https://github.com/stormrose-va/xobox/projects/1">Kanban Board</a>. Three types of labels are used to classify issues.</p>
+<div class="section" id="type">
+<span id="issue-type"></span><h2>Type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h2>
+<p>The type label indicates what kind the issue is of. These types are available:</p>
+<ul class="simple">
+<li><strong>bug</strong> marks an error within the source code or the application logic</li>
+<li><strong>regression</strong> marks an error that was introduced by another fix or feature</li>
+<li><strong>feature</strong> marks a request for a new feature</li>
+<li><strong>enhancement</strong> marks a request for enhancing an existing feature</li>
+<li><strong>optimisation</strong> marks a request for optimising a feature or the corresponding source code</li>
+<li><strong>quality</strong> marks a request to improve code quality or test coverage</li>
+<li><strong>doc</strong> marks a request for amending or updating the documentation</li>
+<li><strong>legal</strong> marks issues related to legal affairs (e. g. licensing, patents, etc.)</li>
+<li><strong>infrastructure</strong> marks issues related to the project’s technical infrastructure</li>
+<li><strong>project</strong> marks issues related to general project management</li>
+<li><strong>releng</strong> marks issues related to release management (e. g. version bumps etc.)</li>
+<li><strong>support</strong> marks requests for technical support</li>
+</ul>
+</div>
+<div class="section" id="priority">
+<span id="issue-priority"></span><h2>Priority<a class="headerlink" href="#priority" title="Permalink to this headline">¶</a></h2>
+<p>The Stormrose Project uses these priority labels to mark issues which require fast attention:</p>
+<ul class="simple">
+<li><strong>security</strong> – top priority label marking security issues</li>
+<li><strong>critical</strong> – non-security related label for top priority issues endangering or blocking production use</li>
+</ul>
+<p>Otherwise, priorities are expressed by the sorting order within the respective column of the <a class="reference external" href="https://github.com/stormrose-va/xobox/projects/1">Kanban Board</a> – an
+issue placed above another issue within the column has a higher priority than the one placed below.</p>
+<p>Priorities may be subject to review by the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>. They will adjust proposed priorities if
+necessary to the right level.</p>
+</div>
+<div class="section" id="status">
+<span id="issue-status"></span><h2>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<p>The status of an issue is not managed by a label, but instead by a column on the <a class="reference external" href="https://github.com/stormrose-va/xobox/projects/1">Kanban Board</a> the issue is
+assigned to.</p>
+<p>The xobox project uses these columns (i. e. status messages):</p>
+<ul class="simple">
+<li><strong>Backlog</strong> – all issues that are waiting to be worked on.</li>
+<li><strong>In Progress</strong> – issues that are currently being worked on (i. e. a feature branch exists for these issues).</li>
+<li><strong>Ready</strong> – issues whose feature branch is considered ready for merge into the <code class="docutils literal notranslate"><span class="pre">origin/master</span></code> branch (i. e. a
+pull request has been created for the respective issue).</li>
+<li><strong>Review</strong> – issues which are subject to an extended review by the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>, pending validation
+or feedback or whose progress is blocked by whatever reason. Issues with this status are subject to regular reviews
+by the core team members.</li>
+<li><strong>Rejected</strong> – issues which have been rejected by the <a class="reference internal" href="roles.html#core-team"><span class="std std-ref">core team</span></a>, usually after a longer review
+period. Issues violating xobox’ project objectives or the overall Stormrose policies may be immediately rejected.</li>
+<li><strong>Done</strong> – issues that are considered complete after integration test. May be closed after review/confirmation.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="release.html" class="btn btn-neutral float-right" title="Release Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="git.html" class="btn btn-neutral" title="Source Code Repository" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dynamic Utility &mdash; xobox 0.1.dev20181102094537 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Loader Utility" href="loader.html" />
+    <link rel="prev" title="Convert Utility" href="convert.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> xobox
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">xobox Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Project Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../xobox.html">xobox Package API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">xobox’ Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conf.html">xobox’ Application Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">xobox Core Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Utility Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="compat.html">Compatibility Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convert.html">Convert Utility</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dynamic Utility</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-class">Dynamic Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-iterable-class">Dynamic Iterable Class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="loader.html">Loader Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="singleton.html">Singleton Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="termcolor.html">Termcolor Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version Utility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../contents.html">xobox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="index.html">Utility Modules</a> &raquo;</li>
+        
+      <li>Dynamic Utility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/ref/utils/dynamic.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-xobox.utils.dynamic">
+<span id="dynamic-utility"></span><h1>Dynamic Utility<a class="headerlink" href="#module-xobox.utils.dynamic" title="Permalink to this headline">¶</a></h1>
+<p>The dynamic utility provides two abstract classes which are intended to be inherited from or
+being used in a stand-alone mode. Both classes provide means for dynamically creating properties,
+based on a given set of information.</p>
+<div class="section" id="dynamic-class">
+<h2>Dynamic Class<a class="headerlink" href="#dynamic-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="xobox.utils.dynamic.Dynamic">
+<em class="property">class </em><code class="descclassname">xobox.utils.dynamic.</code><code class="descname">Dynamic</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xobox/utils/dynamic.html#Dynamic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.utils.dynamic.Dynamic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dynamic class generating properties from kwargs</p>
+<p>The constructor of the <a class="reference internal" href="#xobox.utils.dynamic.Dynamic" title="xobox.utils.dynamic.Dynamic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dynamic</span></code></a> class uses
+all keyword arguments passed to the constructor for creating <code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code>
+attributes with the same name as the keyword argument, returning the value submitted
+with the keyword argument.</p>
+</dd></dl>
+
+<p><strong>Usage Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">xobox.utils.dynamic</span> <span class="k">import</span> <span class="n">Dynamic</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">Dynamic</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="go">&#39;bar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">&#39;bar&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The properties are dynamically created by the constructor. After the constructor has
+terminated, the property set of the created object is fix (except for direct manipulation
+using <a class="reference external" href="https://docs.python.org/library/functions.html#setattr" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">setattr()</span></code></a> and <a class="reference external" href="https://docs.python.org/library/functions.html#delattr" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">delattr()</span></code></a>).</p>
+</div>
+</div>
+<div class="section" id="dynamic-iterable-class">
+<h2>Dynamic Iterable Class<a class="headerlink" href="#dynamic-iterable-class" title="Permalink to this headline">¶</a></h2>
+<p>The dynamic iterable class interface is much more complex than the pure <a class="reference internal" href="#xobox.utils.dynamic.Dynamic" title="xobox.utils.dynamic.Dynamic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dynamic</span></code></a>
+class. It not only provides dynamically generated <code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code> attributes, but also acts as a
+<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> instance, allowing to access all attribute values by using their names as keys. Furthermore,
+attributes are dynamically created, updated or deleted when the object is manipulated via its dictionary interface.</p>
+<p>In addition, the <a class="reference internal" href="#xobox.utils.dynamic.Dynamic" title="xobox.utils.dynamic.Dynamic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dynamic</span></code></a> class allows for registering hook methods or
+functions, which can be used to manipulate the item setting and deletion behaviour.</p>
+<dl class="class">
+<dt id="xobox.utils.dynamic.DynamicIterable">
+<em class="property">class </em><code class="descclassname">xobox.utils.dynamic.</code><code class="descname">DynamicIterable</code><span class="sig-paren">(</span><em>dict=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xobox/utils/dynamic.html#DynamicIterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.utils.dynamic.DynamicIterable" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dynamic iterable object is similar to a normal Python dictionary, except it offers
+all keys also as properties.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since <code class="xref py py-class docutils literal notranslate"><span class="pre">UserDict</span></code> in Python 2.x is an old-style class, this class
+also inherits from <cite>object</cite> to become a new style class.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dict</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – dictionary with initial data to be filled in</li>
+<li><strong>kwargs</strong> – keyword arguments to be transformed into dictionary data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="xobox.utils.dynamic.DynamicIterable.register_hook">
+<code class="descname">register_hook</code><span class="sig-paren">(</span><em>hook_type</em>, <em>method</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xobox/utils/dynamic.html#DynamicIterable.register_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xobox.utils.dynamic.DynamicIterable.register_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a hook within the corresponding hook queue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>hook_type</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – one of <cite>pre-set</cite>, <cite>post-set</cite>, <cite>pre-del</cite>, <cite>post-del</cite>,
+<cite>pre-get</cite>, <cite>post-get</cite></li>
+<li><strong>method</strong> – reference to a method or function taking two arguments (key, value)
+and returning exactly this tuple (however, with different content if
+necessary to fulfil the hook’s purpose).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p><strong>Usage example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">xobox.utils.dynamic</span> <span class="k">import</span> <span class="n">DynamicIterable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">DynamicIterable</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="go">&#39;bar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">&#39;bar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="n">obj</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">&#39;bar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;fuu&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;fuu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;fuu&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p><strong>Hooks example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xobox.utils.dynamic</span> <span class="kn">import</span> <span class="n">DynamicIterable</span>
+<span class="k">class</span> <span class="nc">MyIterable</span><span class="p">(</span><span class="n">DynamicIterable</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-set&#39;</span><span class="p">,</span> <span class="n">my_hook</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s1">&#39;pre-get&#39;</span><span class="p">,</span> <span class="n">my_hook</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyIterable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">dict</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">my_hook</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p>This example demonstrates how one can render the DynamicIterable’s keys case-agnostic.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="loader.html" class="btn btn-neutral float-right" title="Loader Utility" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="convert.html" class="btn btn-neutral" title="Convert Utility" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, the Stormrose Project team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
